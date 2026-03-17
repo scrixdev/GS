@@ -47,6 +47,9 @@
   <symbol id="i-edit"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
   <symbol id="i-trash"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></symbol>
   <symbol id="i-sh"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-book"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-users"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-ban"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
   <symbol id="i-globe"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
   <symbol id="i-bell"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
   <symbol id="i-sub"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
@@ -158,6 +161,7 @@ input,textarea,select{font-family:var(--font-body)}
 .hero-badge{background:rgba(212,13,21,.15);border:1px solid rgba(212,13,21,.3);padding:2px 9px;border-radius:5px;font-size:11px!important;font-weight:700!important;color:var(--red)!important}
 .hero-desc{font-size:15px;color:var(--t2);line-height:1.74;max-width:480px;margin-bottom:32px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-actions .btn{flex:0 0 auto}
 .hero-dots{position:absolute;bottom:32px;right:clamp(16px,4%,80px);display:flex;gap:5px;z-index:2}
 .hdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:all var(--tr)}
 .hdot.on{background:var(--red);width:20px;border-radius:2.5px}
@@ -273,19 +277,204 @@ input,textarea,select{font-family:var(--font-body)}
 .empty-ttl{font-size:18px;font-weight:600;color:var(--t2);margin-bottom:8px}
 
 /* ──────────────────── SEARCH ──────────────────── */
-#search-ov{position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.94);backdrop-filter:blur(22px);opacity:0;pointer-events:none;transition:opacity var(--tr);overflow-y:auto;padding-top:100px}
+#search-ov{
+  position:fixed;inset:0;z-index:1200;
+  background:var(--bg);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
 #search-ov.open{opacity:1;pointer-events:all}
-.search-wrap{max-width:720px;margin:0 auto;padding:0 24px}
-.search-field{position:relative;margin-bottom:32px}
-.search-field .i{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--t3);pointer-events:none}
-#si{width:100%;background:var(--s2);border:var(--border);border-radius:var(--r3);padding:18px 18px 18px 54px;font-size:17px;font-weight:500;color:var(--t1);outline:none;transition:border-color var(--tr)}
-#si:focus{border-color:rgba(212,13,21,.45)}
-#si::placeholder{color:var(--t3)}
-.search-x{position:fixed;top:20px;right:24px;background:var(--s2);border:var(--border);color:var(--t2);width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--tr)}
-.search-x:hover{background:var(--s3);color:var(--t1)}.search-x .i{width:18px;height:18px}
-.search-lbl{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--t3);margin-bottom:18px}
-.search-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px 14px}
-.search-grid .card{width:100%}
+
+.search-topbar{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:14px;
+  padding:14px 20px;
+  background:var(--bg);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  position:sticky;top:0;z-index:2;
+}
+.search-topbar .nav-logo{font-size:22px;cursor:pointer;flex-shrink:0}
+.search-field{
+  flex:1;
+  position:relative;
+  max-width:600px;
+}
+.search-field .i{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:18px;height:18px;color:var(--t3);pointer-events:none;
+}
+#si{
+  width:100%;
+  background:var(--s2);
+  border:1.5px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  padding:12px 44px 12px 46px;
+  font-size:15px;font-weight:500;
+  color:var(--t1);outline:none;
+  transition:border-color .2s ease,background .2s ease;
+}
+#si:focus{border-color:rgba(255,255,255,.25);background:var(--s3)}
+#si::placeholder{color:var(--t4)}
+.search-clear{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.1);border:none;color:var(--t3);
+  width:22px;height:22px;border-radius:50%;
+  display:none;align-items:center;justify-content:center;cursor:pointer;
+}
+.search-clear .i{width:11px;height:11px}
+.search-clear.vis{display:flex}
+.search-x{
+  flex-shrink:0;
+  background:none;border:none;
+  color:var(--t2);font-size:14px;font-weight:600;
+  cursor:pointer;padding:8px 4px;white-space:nowrap;
+  transition:color .15s;
+}
+.search-x:hover{color:var(--t1)}
+
+.search-body{
+  flex:1;overflow-y:auto;
+  padding:20px 16px 100px;
+}
+.search-body-inner{
+  width:100%;
+}
+@media(min-width:768px){
+  .search-body{padding:24px 32px 100px}
+  .search-topbar{padding:14px 32px}
+}
+
+/* Category pills row */
+.search-cats{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;
+}
+.scat-btn{
+  padding:7px 16px;border-radius:50px;
+  border:1.5px solid rgba(255,255,255,.12);
+  background:none;color:var(--t3);
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .18s ease;white-space:nowrap;
+}
+.scat-btn:hover{background:rgba(255,255,255,.07);color:var(--t1)}
+.scat-btn.on{background:var(--t1);color:#000;border-color:var(--t1)}
+
+/* Search section title */
+.search-sec-title{
+  font-size:14px;font-weight:700;color:var(--t1);
+  margin-bottom:14px;letter-spacing:.2px;
+}
+
+/* Top searches — vertical list */
+.search-top-list{
+  display:flex;flex-direction:column;gap:4px;margin-bottom:32px;
+}
+.search-top-item{
+  display:flex;align-items:center;gap:0;
+  height:72px;
+  border-radius:6px;
+  cursor:pointer;
+  overflow:hidden;
+  background:var(--s1);
+  transition:background .18s ease;
+  position:relative;
+}
+.search-top-item:hover{background:var(--s2)}
+.search-top-rank{
+  font-family:'Cinzel',serif;font-size:22px;font-weight:900;
+  color:rgba(255,255,255,.18);width:52px;text-align:center;
+  flex-shrink:0;
+}
+.search-top-thumb{
+  width:48px;height:72px;flex-shrink:0;
+  background-size:cover;background-position:center;
+  background-color:var(--s3);
+}
+.search-top-info{
+  flex:1;min-width:0;padding:0 14px;
+}
+.search-top-title{
+  font-size:14px;font-weight:700;color:var(--t1);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom:3px;
+}
+.search-top-meta{font-size:11.5px;color:var(--t3)}
+.search-top-play{
+  flex-shrink:0;margin-right:14px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);
+  color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background .15s,transform .15s;
+}
+.search-top-play:hover{background:rgba(255,255,255,.25);transform:scale(1.1)}
+.search-top-play .i{width:12px;height:12px}
+
+/* Category cards — rich visual tiles */
+.search-browse-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+@media(min-width:600px){.search-browse-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.search-browse-grid{grid-template-columns:repeat(4,1fr)}}
+
+.search-browse-card{
+  position:relative;
+  height:100px;
+  border-radius:10px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .22s var(--ease), box-shadow .22s var(--ease);
+  -webkit-tap-highlight-color:transparent;
+}
+.search-browse-card:hover{transform:scale(1.04);box-shadow:0 12px 40px rgba(0,0,0,.7)}
+.search-browse-card:active{transform:scale(.96)}
+.sbc-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:transform .4s var(--ease);
+}
+.search-browse-card:hover .sbc-bg{transform:scale(1.08)}
+.sbc-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.15) 100%);
+}
+.sbc-label{
+  position:absolute;
+  bottom:12px;left:14px;right:14px;
+  font-size:15px;font-weight:800;color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,.8);
+  letter-spacing:.2px;
+  line-height:1.2;
+}
+.sbc-emoji{
+  position:absolute;top:10px;right:12px;
+  font-size:22px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));
+}
+
+/* Results grid */
+.search-results-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.search-results-grid .card{width:100%;animation:none;max-width:none}
+.search-results-grid .c-art{aspect-ratio:2/3}
+/* Disable scale on hover in search grid to avoid overlap */
+.search-results-grid .card:hover{transform:none!important;box-shadow:0 4px 20px rgba(0,0,0,.6)!important}
+.search-results-grid .c-grid .card:hover{transform:none!important}
+@media(min-width:540px){.search-results-grid{grid-template-columns:repeat(4,1fr);gap:14px}}
+@media(min-width:768px){.search-results-grid{grid-template-columns:repeat(5,1fr);gap:14px}}
+@media(min-width:1100px){.search-results-grid{grid-template-columns:repeat(6,1fr);gap:16px}}
+@media(max-width:380px){.search-results-grid{grid-template-columns:repeat(2,1fr)}}
+
+.search-empty{
+  text-align:center;padding:60px 20px;color:var(--t3);
+}
+.search-empty .i{width:48px;height:48px;opacity:.15;display:block;margin:0 auto 16px}
+.search-empty-title{font-size:17px;font-weight:700;color:var(--t2);margin-bottom:6px}
+.search-empty-sub{font-size:13px;color:var(--t3)}
 
 /* ──────────────────── MODAL ──────────────────── */
 #modal-ov{position:fixed;inset:0;z-index:1300;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);opacity:0;pointer-events:none;transition:opacity var(--tr);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:44px 24px}
@@ -394,6 +583,7 @@ input,textarea,select{font-family:var(--font-body)}
   max-width:1200px;
   margin:0 auto;
 }
+.set-ct{padding:48px 56px;max-width:800px}
 .set-sb{
   background:var(--s1);
   border-right:var(--border);
@@ -466,17 +656,24 @@ input,textarea,select{font-family:var(--font-body)}
 
 /* ─── Settings mobile: compact icon-tab bar ─── */
 @media(max-width:768px){
-  #page-settings .sw{grid-template-columns:1fr;padding-top:58px;max-width:100%}
+  #page-settings .sw{
+    display:block !important;
+    padding-top:58px;
+    max-width:100%;
+    min-height:unset !important;
+  }
   .set-sb{
     position:sticky;
     top:58px;
     z-index:100;
     height:auto !important;
+    min-height:unset !important;
     padding:0 !important;
     border-right:none !important;
     border-bottom:var(--border) !important;
     background:rgba(10,10,10,.97) !important;
     backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
     display:flex !important;
     flex-direction:row !important;
     flex-wrap:nowrap !important;
@@ -489,11 +686,9 @@ input,textarea,select{font-family:var(--font-body)}
   .set-sb-title{display:none !important}
   #set-sep-logout{display:none !important}
   .set-nav{
-    /* reset desktop styles */
     width:auto !important;
     min-width:0 !important;
     flex:0 0 auto !important;
-    /* mobile tab layout */
     flex-direction:column !important;
     align-items:center !important;
     justify-content:center !important;
@@ -521,7 +716,13 @@ input,textarea,select{font-family:var(--font-body)}
     border-bottom-color:var(--red) !important;
   }
   .set-nav.on .i{color:var(--red) !important}
-  .set-ct{padding:20px 16px 100px !important;max-width:100% !important}
+  .set-ct{
+    padding:20px 16px 100px !important;
+    max-width:100% !important;
+    display:block !important;
+    min-height:unset !important;
+  }
+  .set-sec-title{font-size:20px !important}
 }
 
 /* Profile avatar */
@@ -567,6 +768,151 @@ input,textarea,select{font-family:var(--font-body)}
 .cat-btn .i{width:13px;height:13px}
 .cat-btn:hover{background:var(--s4);color:var(--t1)}
 .cat-btn.del:hover{background:rgba(212,13,21,.15);color:var(--red);border-color:rgba(212,13,21,.3)}
+.cat-btn.edit:hover{background:rgba(62,207,106,.12);color:var(--grn);border-color:rgba(62,207,106,.25)}
+.cat-btn.feat{color:var(--t4)}
+.cat-btn.feat.on{color:#ffd700;background:rgba(255,200,0,.1);border-color:rgba(255,200,0,.3)}
+
+/* ──────────────────── FULL ADMIN PAGE ──────────────────── */
+#page-admin{background:var(--bg)}
+.admin-layout{
+  display:grid;grid-template-columns:220px 1fr;
+  padding-top:66px;max-width:1600px;margin:0 auto;
+}
+@media(max-width:768px){.admin-layout{grid-template-columns:1fr;padding-top:58px}}
+.admin-sidebar{
+  background:var(--s1);border-right:var(--border);
+  padding:24px 10px;position:sticky;top:66px;
+  height:calc(100vh - 66px);overflow-y:auto;
+}
+@media(max-width:768px){
+  .admin-sidebar{
+    position:sticky;top:58px;z-index:50;height:auto;
+    padding:6px 8px;border-right:none;border-bottom:var(--border);
+    display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:none;gap:2px;
+  }
+  .admin-sidebar::-webkit-scrollbar{display:none}
+}
+.admin-sb-title{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--t4);padding:0 10px 12px}
+@media(max-width:768px){.admin-sb-title{display:none}}
+.admin-nav-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:10px;
+  cursor:pointer;color:var(--t3);font-size:13px;font-weight:600;
+  background:none;border:none;width:100%;text-align:left;
+  transition:all .15s;margin-bottom:2px;white-space:nowrap;
+}
+.admin-nav-btn .i{width:15px;height:15px;flex-shrink:0}
+.admin-nav-btn:hover{background:rgba(255,255,255,.05);color:var(--t1)}
+.admin-nav-btn.on{background:rgba(212,13,21,.12);color:var(--t1)}
+.admin-nav-btn.on .i{color:var(--red)}
+@media(max-width:768px){
+  .admin-nav-btn{width:auto;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;font-size:10px;margin-bottom:0;border-radius:8px}
+  .admin-nav-btn .i{width:18px;height:18px}
+  .admin-nav-btn span{font-weight:700;letter-spacing:.3px}
+}
+.admin-nav-badge{margin-left:auto;font-size:10px;font-weight:800;background:var(--red);color:#fff;padding:2px 7px;border-radius:50px}
+@media(max-width:768px){.admin-nav-badge{display:none}}
+.admin-content-area{padding:28px 32px 100px;min-height:calc(100vh - 66px - 58px)}
+@media(max-width:768px){.admin-content-area{padding:16px 14px 100px}}
+.admin-page{display:none}.admin-page.on{display:block;animation:pgIn .2s var(--ease)}
+
+/* Admin page header */
+.admin-ph{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.admin-ph h2{font-family:'Cinzel',serif;font-size:20px;font-weight:700}
+.admin-ph p{font-size:13px;color:var(--t3);margin-top:3px}
+
+/* Stat cards */
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:900px){.admin-stats{grid-template-columns:repeat(2,1fr)}}
+.astat{background:var(--s1);border:var(--border);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden;transition:border-color .2s}
+.astat:hover{border-color:rgba(255,255,255,.12)}
+.astat-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.astat-icon .i{width:17px;height:17px}
+.astat-n{font-family:'Cinzel',serif;font-size:26px;font-weight:900;line-height:1}
+.astat-l{font-size:11px;color:var(--t3);font-weight:600;margin-top:5px;text-transform:uppercase;letter-spacing:.5px}
+.astat-trend{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;padding:2px 6px;border-radius:50px}
+.astat-trend.up{background:rgba(62,207,106,.15);color:var(--grn)}
+
+/* Admin card */
+.admin-card{background:var(--s1);border:var(--border);border-radius:14px;padding:20px;margin-bottom:18px}
+.admin-card-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.admin-card-title{font-size:14px;font-weight:700;color:var(--t1)}
+.admin-card-sub{font-size:12px;color:var(--t3);margin-top:2px}
+
+/* Inline search */
+.admin-search{
+  display:flex;align-items:center;gap:8px;
+  background:var(--s2);border:var(--border);border-radius:9px;
+  padding:0 12px;flex:1;max-width:280px;transition:border-color .18s;
+}
+.admin-search:focus-within{border-color:rgba(255,255,255,.2)}
+.admin-search .i{width:14px;height:14px;color:var(--t4)}
+.admin-search input{flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--t1);padding:8px 0}
+.admin-search input::placeholder{color:var(--t4)}
+
+/* Edit modal */
+#edit-modal{position:fixed;inset:0;z-index:1700;background:rgba(0,0,0,.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s ease}
+#edit-modal.open{opacity:1;pointer-events:all}
+.edit-box{background:var(--s1);border:var(--border);border-radius:20px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:28px 30px;box-shadow:0 40px 120px rgba(0,0,0,.9);animation:pgIn .2s var(--ease)}
+@media(max-width:600px){.edit-box{padding:20px 16px;border-radius:14px}}
+.edit-box-title{font-family:'Cinzel',serif;font-size:19px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.edit-grid .full{grid-column:1/-1}
+@media(max-width:480px){.edit-grid{grid-template-columns:1fr}}
+
+/* User cards */
+.user-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.user-card{background:var(--s2);border:var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;transition:border-color .18s}
+.user-card:hover{border-color:rgba(255,255,255,.12)}
+.uc-av{width:40px;height:40px;border-radius:9px;flex-shrink:0;background:linear-gradient(140deg,var(--red),var(--rdim));display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:#fff;overflow:hidden}
+.uc-av img{width:100%;height:100%;object-fit:cover}
+.uc-info{flex:1;min-width:0}
+.uc-name{font-size:13.5px;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uc-email{font-size:11px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uc-actions{display:flex;gap:5px}
+
+/* Danger grid */
+.danger-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.danger-card{background:rgba(212,13,21,.05);border:1px solid rgba(212,13,21,.18);border-radius:14px;padding:20px;transition:border-color .2s}
+.danger-card:hover{border-color:rgba(212,13,21,.35)}
+.dc-icon{width:38px;height:38px;border-radius:9px;background:rgba(212,13,21,.12);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.dc-icon .i{width:17px;height:17px;color:var(--red)}
+.dc-title{font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px}
+.dc-desc{font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.55}
+
+/* Activity log */
+.activity-list{display:flex;flex-direction:column;gap:0}
+.activity-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:var(--border)}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.activity-text{font-size:13px;color:var(--t2);flex:1}
+.activity-time{font-size:11px;color:var(--t4);white-space:nowrap}
+
+/* Old admin inside settings — keep compat */
+.admin-tabs{display:flex;gap:4px;background:var(--s2);border-radius:var(--r);padding:4px;margin-bottom:20px}
+.admin-tab{flex:1;padding:8px 6px;text-align:center;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;color:var(--t3);transition:all .18s}
+.admin-tab.on{background:var(--red);color:#fff}
+.admin-sec{display:none}.admin-sec.on{display:block}
+.admin-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:640px){.admin-stat-grid{grid-template-columns:repeat(2,1fr)}}
+.admin-stat-card{background:var(--s2);border:var(--border);border-radius:var(--r);padding:16px 14px;text-align:center}
+.admin-stat-n{font-family:'Cinzel',serif;font-size:28px;font-weight:900;color:var(--red)}
+.admin-stat-l{font-size:11px;color:var(--t3);margin-top:4px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.u-table{width:100%;border-collapse:collapse;font-size:13px}
+.u-table th{text-align:left;padding:8px 12px;color:var(--t3);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:var(--border)}
+.u-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--t2);vertical-align:middle}
+.u-table tr:hover td{background:rgba(255,255,255,.025)}
+.u-role{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}
+.u-role.admin{background:rgba(212,13,21,.18);color:var(--red);border:1px solid rgba(212,13,21,.3)}
+.u-role.user{background:var(--s3);color:var(--t3)}
+.admin-danger-card{background:rgba(212,13,21,.06);border:1px solid rgba(212,13,21,.2);border-radius:var(--r);padding:20px;margin-top:16px}
+.admin-danger-title{font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.admin-danger-desc{font-size:13px;color:var(--t3);margin-bottom:14px}
+.btn-danger{background:rgba(212,13,21,.15);color:var(--red);border:1px solid rgba(212,13,21,.3);padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px}
+.btn-danger:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.add-manga-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.add-manga-grid .full{grid-column:1/-1}
 
 /* ──────────────────── TOAST ──────────────────── */
 #toast{position:fixed;bottom:32px;left:50%;z-index:9000;background:rgba(11,11,11,.98);border:var(--border);color:var(--t1);padding:11px 22px;border-radius:50px;font-size:13.5px;font-weight:500;backdrop-filter:blur(20px);transform:translateX(-50%) translateY(16px);opacity:0;transition:all .3s var(--ease);pointer-events:none;display:flex;align-items:center;gap:9px;white-space:nowrap;box-shadow:0 8px 40px rgba(0,0,0,.7)}
@@ -590,15 +936,23 @@ input,textarea,select{font-family:var(--font-body)}
   z-index:900;
   background:rgba(8,8,8,.97);
   border-top:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
   padding-bottom:env(safe-area-inset-bottom,0);
 }
 .mn-inner{
   display:flex;
-  align-items:stretch;
+  align-items:center;
+  justify-content:center;
   height:58px;
+  max-width:480px;
+  margin:0 auto;
+  padding:0 8px;
+  gap:0;
 }
 .mn-btn{
-  flex:1;
+  flex:0 0 auto;
+  width:80px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -607,44 +961,35 @@ input,textarea,select{font-family:var(--font-body)}
   cursor:pointer;
   background:none;
   border:none;
-  border-top:2px solid transparent;
-  color:rgba(255,255,255,.35);
-  padding:0 2px;
-  transition:color .18s ease, border-color .18s ease;
+  color:rgba(255,255,255,.32);
+  padding:0;
+  transition:color .18s ease;
   -webkit-tap-highlight-color:transparent;
-  min-width:0;
-  overflow:hidden;
+  position:relative;
 }
 .mn-ic{
   display:flex;
   align-items:center;
   justify-content:center;
-  width:24px;height:24px;
-  flex-shrink:0;
+  width:44px;height:28px;
+  border-radius:10px;
+  transition:background .18s ease, transform .15s var(--ease);
 }
-.mn-btn .i{width:22px;height:22px;display:block}
+.mn-btn .i{width:21px;height:21px;display:block;transition:transform .2s var(--ease)}
 .mn-btn span{
   font-size:10px;
-  font-weight:700;
-  letter-spacing:.3px;
-  text-transform:uppercase;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  max-width:100%;
+  font-weight:600;
+  letter-spacing:.1px;
   line-height:1;
+  color:inherit;
 }
-.mn-btn.active{
-  color:var(--red);
-  border-top-color:var(--red);
-}
+.mn-btn.active{color:var(--red)}
+.mn-btn.active .mn-ic{background:rgba(212,13,21,.13)}
+.mn-btn:active .mn-ic{transform:scale(.84)}
 .mn-notif{
-  position:absolute;
-  top:8px;right:calc(50% - 14px);
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--red);
-  border:1.5px solid rgba(8,8,8,.97);
+  position:absolute;top:0;right:calc(50% - 18px);
+  width:6px;height:6px;border-radius:50%;
+  background:var(--red);border:1.5px solid rgba(8,8,8,.97);
 }
 
 /* Scrollbar */
@@ -665,6 +1010,7 @@ input,textarea,select{font-family:var(--font-body)}
   .hero-title{font-size:clamp(28px,7vw,48px)}
   .hero-desc{display:none}
   .hero-actions{gap:8px}
+  .hero-actions .btn{padding:10px 16px;font-size:13px;flex:0 0 auto}
   .btn{padding:10px 20px;font-size:13.5px}
   .row{padding-inline:14px}
   .genre-bar{padding-inline:14px}
@@ -675,21 +1021,149 @@ input,textarea,select{font-family:var(--font-body)}
   .auth-box{padding:32px 20px;margin:16px;border-radius:20px}
   #home-rows{padding:0 0 96px}
   .sarr{display:none}
-  .card{width:152px}
-  .card-wide{width:220px}
-}
-/* Bottom nav: icons only on small phones */
-@media(max-width:480px){
-  .card{width:136px}
+  .card{width:130px}
+  .card .c-art{aspect-ratio:2/3}
   .card-wide{width:200px}
+  .card-wide .c-art{aspect-ratio:16/9}
+  .c-foot-title{font-size:12px}
+  .c-foot{padding:8px 10px 10px}
+}
+/* Bottom nav responsive */
+@media(max-width:480px){
+  .card{width:116px}
+  .card .c-art{aspect-ratio:2/3}
+  .card-wide{width:180px}
   .c-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
   .auth-box{padding:28px 16px}
   .hero-title{font-size:clamp(24px,8vw,40px)}
-  .mn-btn span{display:none}
-  .mn-inner{height:52px}
-  #mob-nav{--mob-nav:52px}
+  .mn-inner{height:54px}
+  #mob-nav{--mob-nav:54px}
+  .mn-ic{width:40px;height:28px}
+  .mn-btn .i{width:20px;height:20px}
+  .mn-btn span{font-size:9px}
 }
 .no-scroll{overflow:hidden}
+
+/* ──────────────────── MANGA PAGE ──────────────────── */
+.manga-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px 12px;padding:0 clamp(14px,4%,80px) 96px}
+.manga-card{border-radius:var(--card-radius);overflow:hidden;background:var(--s1);cursor:pointer;border:var(--border);transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease);position:relative;animation:cardIn .4s var(--ease) both}
+.manga-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 20px 50px rgba(0,0,0,.8);border-color:rgba(212,13,21,.35)}
+.manga-art{width:100%;aspect-ratio:2/3;background:var(--s2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.manga-art img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.manga-card:hover .manga-art img{transform:scale(1.06)}
+.manga-art-fallback{font-family:'Cinzel',serif;font-size:36px;font-weight:900;opacity:.18}
+.manga-badge{position:absolute;top:8px;left:8px;background:rgba(212,13,21,.9);color:#fff;font-size:9px;font-weight:800;padding:3px 7px;border-radius:4px;letter-spacing:.5px;text-transform:uppercase;backdrop-filter:blur(6px)}
+.manga-foot{padding:10px 10px 12px}
+.manga-foot-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.manga-foot-meta{font-size:11px;color:var(--t3);display:flex;align-items:center;gap:6px}
+.manga-chapters{background:rgba(212,13,21,.12);border:1px solid rgba(212,13,21,.25);color:var(--red);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+@media(max-width:768px){.manga-grid{grid-template-columns:repeat(auto-fill,minmax(138px,1fr))}}
+@media(max-width:480px){.manga-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
+
+/* ──────────────────── MANGA READER ──────────────────── */
+#manga-reader{position:fixed;inset:0;z-index:1600;background:#000;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .35s ease}
+#manga-reader.open{opacity:1;pointer-events:all}
+.mr-top{position:absolute;top:0;inset-inline:0;padding:max(env(safe-area-inset-top),16px) 20px 20px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(0,0,0,.95) 0%,transparent 100%);z-index:10;transition:opacity .3s ease}
+.mr-top.hidden{opacity:0;pointer-events:none}
+.mr-back{display:flex;align-items:center;gap:8px;background:none;border:none;color:#fff;cursor:pointer;font-size:14px;font-weight:600;transition:opacity .2s}
+.mr-back .i{width:18px;height:18px}
+.mr-title{font-size:14px;font-weight:700;color:rgba(255,255,255,.85);text-align:center;flex:1}
+.mr-info{font-size:12px;color:rgba(255,255,255,.45);min-width:60px;text-align:right}
+.mr-pages{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;touch-action:pan-y}
+.mr-page-img{max-width:100%;max-height:100vh;object-fit:contain;user-select:none;-webkit-user-drag:none;transition:transform .25s var(--ease)}
+.mr-page-img.zoom{transform:scale(1.8);cursor:zoom-out}
+.mr-page-placeholder{display:flex;flex-direction:column;align-items:center;gap:16px;color:var(--t3)}
+.mr-page-placeholder .i{width:64px;height:64px;opacity:.2}
+.mr-nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:80px;background:rgba(255,255,255,.06);border:none;color:rgba(255,255,255,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:var(--r);transition:background .2s,color .2s;z-index:5}
+.mr-nav-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+.mr-nav-btn.l{left:8px}.mr-nav-btn.r{right:8px}
+.mr-nav-btn .i{width:22px;height:22px}
+@media(max-width:600px){.mr-nav-btn{width:36px;height:60px}}
+.mr-bottom{position:absolute;bottom:0;inset-inline:0;padding:20px 20px max(env(safe-area-inset-bottom),20px);background:linear-gradient(0deg,rgba(0,0,0,.95) 0%,transparent 100%);z-index:10;transition:opacity .3s ease}
+.mr-bottom.hidden{opacity:0;pointer-events:none}
+.mr-prog{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.mr-track{flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;position:relative;cursor:pointer}
+.mr-fill{height:100%;background:var(--red);border-radius:2px;transition:width .2s ease}
+.mr-pg-num{font-size:12px;color:rgba(255,255,255,.45);white-space:nowrap}
+.mr-chaps{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.mr-chaps::-webkit-scrollbar{display:none}
+.mr-chap-btn{flex-shrink:0;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:none;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.mr-chap-btn.on{background:var(--red);border-color:var(--red);color:#fff}
+.mr-chap-btn:hover:not(.on){background:rgba(255,255,255,.08);color:#fff}
+
+/* ──────────────────── CARD ANIMATIONS ──────────────────── */
+@keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(212,13,21,.4)}70%{box-shadow:0 0 0 10px rgba(212,13,21,0)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.card{animation:cardIn .38s var(--ease) both}
+.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.08s}.card:nth-child(3){animation-delay:.12s}
+.card:nth-child(4){animation-delay:.16s}.card:nth-child(5){animation-delay:.20s}.card:nth-child(6){animation-delay:.24s}
+.card:nth-child(7){animation-delay:.28s}.card:nth-child(8){animation-delay:.32s}.card:nth-child(n+9){animation-delay:.36s}
+
+/* ──────────────────── IMPROVED MOBILE PLAYER ──────────────────── */
+.p-swipe-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:rgba(255,255,255,.3);pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .4s ease}
+.p-double-tap{position:absolute;top:0;bottom:0;width:35%;display:flex;align-items:center;justify-content:center;opacity:0;font-size:18px;font-weight:700;color:#fff;pointer-events:none;transition:opacity .25s ease}
+.p-double-tap.l{left:0;background:linear-gradient(90deg,rgba(255,255,255,.12),transparent)}
+.p-double-tap.r{right:0;background:linear-gradient(-90deg,rgba(255,255,255,.12),transparent)}
+.p-double-tap.flash{opacity:1}
+.p-gesture-area{position:absolute;inset:0;z-index:8}
+.player-loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border:3px solid rgba(255,255,255,.1);border-top-color:var(--red);border-radius:50%;animation:spin 1s linear infinite;display:none}
+#player.loading .player-loading{display:block}
+@media(max-width:768px){
+  .p-ctrls{padding:10px 16px max(env(safe-area-inset-bottom),16px)}
+  .p-top{padding:max(env(safe-area-inset-top),14px) 16px 16px}
+  .pb.big .i{width:38px;height:38px}
+  .pb{width:40px;height:40px}
+}
+
+/* ──────────────────── ADMIN TABS ──────────────────── */
+.admin-tabs{display:flex;gap:6px;margin-bottom:24px;background:var(--s2);border-radius:var(--r);padding:5px}
+.admin-tab{flex:1;padding:9px 6px;text-align:center;border-radius:6px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--t3);transition:all .2s;letter-spacing:.3px}
+.admin-tab.on{background:var(--red);color:#fff}
+.admin-sec{display:none}.admin-sec.on{display:block}
+.admin-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:640px){.admin-stat-grid{grid-template-columns:repeat(2,1fr)}}
+.admin-stat-card{background:var(--s2);border:var(--border);border-radius:var(--r);padding:16px 14px;text-align:center}
+.admin-stat-n{font-family:'Cinzel',serif;font-size:28px;font-weight:900;color:var(--red)}
+.admin-stat-l{font-size:11px;color:var(--t3);margin-top:4px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.u-table{width:100%;border-collapse:collapse;font-size:13px}
+.u-table th{text-align:left;padding:8px 12px;color:var(--t3);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:var(--border)}
+.u-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--t2);vertical-align:middle}
+.u-table tr:hover td{background:rgba(255,255,255,.025)}
+.u-role{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}
+.u-role.admin{background:rgba(212,13,21,.18);color:var(--red);border:1px solid rgba(212,13,21,.3)}
+.u-role.user{background:var(--s3);color:var(--t3)}
+.admin-danger-card{background:rgba(212,13,21,.06);border:1px solid rgba(212,13,21,.2);border-radius:var(--r);padding:20px;margin-top:16px}
+.admin-danger-title{font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.admin-danger-desc{font-size:13px;color:var(--t3);margin-bottom:14px}
+.btn-danger{background:rgba(212,13,21,.15);color:var(--red);border:1px solid rgba(212,13,21,.3);padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px}
+.btn-danger:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.add-manga-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.add-manga-grid .full{grid-column:1/-1}
+
+/* ──────────────────── INTRO UPGRADE ──────────────────── */
+#intro-logo{text-shadow:0 0 80px rgba(212,13,21,1),0 0 160px rgba(212,13,21,.6),0 2px 4px rgba(0,0,0,.8);animation:none}
+.intro-logo.show{opacity:1;animation:logoPulse 2s ease infinite}
+@keyframes logoPulse{0%,100%{text-shadow:0 0 80px rgba(212,13,21,1),0 0 160px rgba(212,13,21,.6),0 2px 4px rgba(0,0,0,.8)}50%{text-shadow:0 0 120px rgba(212,13,21,1),0 0 240px rgba(212,13,21,.8),0 2px 4px rgba(0,0,0,.8)}}
+#intro-tagline{font-size:13px;letter-spacing:8px}
+.intro-progress{position:absolute;bottom:7%;left:50%;transform:translateX(-50%);width:160px;height:2px;background:rgba(255,255,255,.1);border-radius:1px;overflow:hidden;opacity:0;animation:fadeIn .5s ease 1.5s forwards}
+.intro-progress-fill{height:100%;background:var(--red);border-radius:1px;animation:introLoad 3.5s ease forwards}
+@keyframes introLoad{from{width:0}to{width:100%}}
+
+/* ──────────────────── GLOBAL MICRO-ANIMATIONS ──────────────────── */
+.btn{transform:translateZ(0)}
+.btn:active{transform:scale(.96)}
+.nav-av{transform:translateZ(0)}.nav-av:active{transform:scale(.92)}
+.mn-btn:active .mn-ic{transform:scale(.85);transition:transform .1s}
+.mn-ic{transition:transform .15s var(--ease)}
+.set-nav{transform:translateZ(0)}.set-nav:active{transform:scale(.97)}
+.card:active{transform:scale(.97);transition:transform .1s}
+@media(prefers-reduced-motion:reduce){
+  .card,.manga-card{animation:none}
+  *{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
@@ -699,7 +1173,8 @@ input,textarea,select{font-family:var(--font-body)}
   <canvas id="intro-canvas"></canvas>
   <div class="intro-logo" id="intro-logo">SUFLIX</div>
   <div id="intro-tagline">Votre univers · en streaming</div>
-  <button id="intro-skip" onclick="skipIntro()">Passer</button>
+  <div class="intro-progress"><div class="intro-progress-fill"></div></div>
+  <button id="intro-skip" onclick="skipIntro()">Passer →</button>
 </div>
 
 <!-- APP -->
@@ -714,6 +1189,7 @@ input,textarea,select{font-family:var(--font-body)}
       <li><a data-page="movies" onclick="go('movies')"><svg class="i"><use href="#i-film"/></svg> Films</a></li>
       <li><a data-page="series" onclick="go('series')"><svg class="i"><use href="#i-tv"/></svg> Séries</a></li>
       <li><a data-page="animes" onclick="go('animes')"><svg class="i"><use href="#i-star"/></svg> Animes</a></li>
+      <li><a data-page="mangas" onclick="go('mangas')"><svg class="i"><use href="#i-book"/></svg> Mangas</a></li>
       <li><a data-page="mylist" onclick="go('mylist')"><svg class="i"><use href="#i-list"/></svg> Ma Liste</a></li>
     </ul>
     <div class="nav-right">
@@ -734,6 +1210,7 @@ input,textarea,select{font-family:var(--font-body)}
           <div class="dd-row" onclick="go('mylist')"><svg class="i"><use href="#i-heart"/></svg> Ma Liste</div>
           <div class="dd-row" onclick="go('continue')"><svg class="i"><use href="#i-clk"/></svg> Continuer</div>
           <div class="dd-row" onclick="go('settings')"><svg class="i"><use href="#i-cog"/></svg> Paramètres</div>
+          <div class="dd-row" id="admin-dd-btn" style="display:none" onclick="go('admin')"><svg class="i"><use href="#i-sh"/></svg> Administration</div>
           <div class="dd-sep"></div>
           <div class="dd-row danger" id="auth-dd" onclick="authClick()"><svg class="i"><use href="#i-out"/></svg> Se connecter</div>
         </div>
@@ -744,12 +1221,6 @@ input,textarea,select{font-family:var(--font-body)}
 
 <!-- HOME -->
 <div id="page-home" class="page active">
-  <div id="sb-banner" style="display:none;position:fixed;top:58px;inset-inline:0;z-index:799;background:linear-gradient(90deg,rgba(212,13,21,.15),rgba(212,13,21,.08));border-bottom:1px solid rgba(212,13,21,.2);padding:10px 4%;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--t2)">
-    <svg class="i" style="width:15px;height:15px;color:var(--red);flex-shrink:0"><use href="#i-info"/></svg>
-    Mode démo — Configurez Supabase pour activer comptes, listes &amp; historique
-    <a href="https://supabase.com" target="_blank" style="color:var(--red);font-weight:600;text-decoration:none;margin-left:auto;flex-shrink:0">Configurer →</a>
-    <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:var(--t3);cursor:pointer;padding:0;display:flex"><svg class="i" style="width:14px;height:14px"><use href="#i-x"/></svg></button>
-  </div>
   <section id="hero">
     <div class="hero-bg" id="hbg"></div>
     <div class="hero-pad" id="hpad" style="opacity:0;transition:opacity .6s ease">
@@ -781,6 +1252,10 @@ input,textarea,select{font-family:var(--font-body)}
     <div class="row">
       <div class="row-head"><div class="row-ttl"><svg class="i"><use href="#i-spark"/></svg> Animes populaires</div><button class="row-all" onclick="go('animes')">Tout voir <svg class="i"><use href="#i-cr"/></svg></button></div>
       <div class="row-scroll"><button class="sarr l" onclick="sRow('anime',-1)"><svg class="i"><use href="#i-cl"/></svg></button><div class="row-cards" id="rc-anime"><div class="sk-row" id="sk-anime"></div></div><button class="sarr r" onclick="sRow('anime',1)"><svg class="i"><use href="#i-cr"/></svg></button></div>
+    </div>
+    <div class="row">
+      <div class="row-head"><div class="row-ttl"><svg class="i"><use href="#i-book"/></svg> Scans &amp; Mangas</div><button class="row-all" onclick="go('mangas')">Tout voir <svg class="i"><use href="#i-cr"/></svg></button></div>
+      <div class="row-scroll"><button class="sarr l" onclick="sRow('manga-home',-1)"><svg class="i"><use href="#i-cl"/></svg></button><div class="row-cards" id="rc-manga-home"></div><button class="sarr r" onclick="sRow('manga-home',1)"><svg class="i"><use href="#i-cr"/></svg></button></div>
     </div>
     <div class="row">
       <div class="row-head"><div class="row-ttl"><svg class="i"><use href="#i-eye"/></svg> Action &amp; Thriller</div></div>
@@ -815,6 +1290,13 @@ input,textarea,select{font-family:var(--font-body)}
   <div class="genre-bar" id="gb-animes"></div><div class="c-grid" id="grid-animes"></div>
 </div>
 
+<!-- MANGAS / SCANS -->
+<div id="page-mangas" class="page">
+  <div class="page-hd"><h1 class="page-ttl">Mangas <span>—</span></h1><p class="page-sub" id="mg-sub"></p></div>
+  <div class="genre-bar" id="gb-mangas"></div>
+  <div class="manga-grid" id="grid-mangas"></div>
+</div>
+
 <!-- MA LISTE -->
 <div id="page-mylist" class="page">
   <div class="page-hd"><h1 class="page-ttl">Ma Liste</h1><p class="page-sub" id="ml-sub"></p></div>
@@ -838,6 +1320,7 @@ input,textarea,select{font-family:var(--font-body)}
       <button class="set-nav" onclick="showSet('notifs',this)"><svg class="i"><use href="#i-bell"/></svg><span>Notifs</span></button>
       <button class="set-nav" onclick="showSet('language',this)"><svg class="i"><use href="#i-globe"/></svg><span>Langue</span></button>
       <button class="set-nav" onclick="showSet('stats',this)"><svg class="i"><use href="#i-eye"/></svg><span>Stats</span></button>
+      <button class="set-nav" onclick="showSet('access',this)"><svg class="i"><use href="#i-user"/></svg><span>Accès.</span></button>
       <button class="set-nav" id="admin-btn" style="display:none" onclick="showSet('admin',this)"><svg class="i"><use href="#i-sh"/></svg><span>Admin</span></button>
       <div class="dd-sep" style="margin:12px 16px" id="set-sep-logout"></div>
       <button class="set-nav" style="color:var(--red)" onclick="authClick()"><svg class="i"><use href="#i-out"/></svg><span>Déco.</span></button>
@@ -854,15 +1337,33 @@ input,textarea,select{font-family:var(--font-body)}
             <div class="av-ov"><svg class="i"><use href="#i-cam"/></svg></div>
           </div>
           <input type="file" id="avatar-file-input" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)"/>
-          <p style="font-size:12px;color:var(--t3);margin-bottom:20px">Cliquez sur l'avatar pour changer la photo de profil</p>
+          <p style="font-size:12px;color:var(--t3);margin-bottom:20px">Cliquez sur l'avatar pour changer votre photo</p>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
             <div><label class="set-lbl">Nom d'utilisateur</label><input type="text" class="set-in" id="set-username" placeholder="Votre nom"/></div>
             <div><label class="set-lbl">Email</label><input type="email" class="set-in" id="set-email" placeholder="email" readonly style="opacity:.5;cursor:not-allowed"/></div>
-            <div style="grid-column:1/-1"><label class="set-lbl">Bio</label><input type="text" class="set-in" id="set-bio" placeholder="Parlez-nous de vous..."/></div>
+            <div style="grid-column:1/-1"><label class="set-lbl">Bio</label><textarea class="set-in" id="set-bio" placeholder="Parlez-nous de vous..." rows="2" style="resize:none"></textarea></div>
           </div>
-          <div style="display:flex;gap:10px;margin-top:18px">
+          <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
             <button class="btn btn-r btn-sm" onclick="saveProfile()"><svg class="i"><use href="#i-check"/></svg> Sauvegarder</button>
-            <button class="btn btn-ghost btn-sm" onclick="removeAvatar()">Supprimer la photo</button>
+            <button class="btn btn-ghost btn-sm" onclick="removeAvatar()"><svg class="i"><use href="#i-trash"/></svg> Supprimer la photo</button>
+          </div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title">Sécurité du compte</div>
+          <div class="set-row">
+            <div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-sh"/></svg></div><div><div class="set-row-lbl">Changer le mot de passe</div><div class="set-row-desc">Recevez un email de réinitialisation</div></div></div>
+            <button class="btn btn-g btn-sm" onclick="sendPasswordReset()">Envoyer</button>
+          </div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title" style="color:var(--red)">Zone dangereuse</div>
+          <div class="set-row">
+            <div class="set-row-l"><div class="set-row-ic" style="background:rgba(212,13,21,.1)"><svg class="i" style="color:var(--red)"><use href="#i-trash"/></svg></div><div><div class="set-row-lbl">Réinitialiser mon historique</div><div class="set-row-desc">Efface tout votre historique de visionnage</div></div></div>
+            <button class="btn-danger" onclick="clearMyHistory()">Effacer</button>
+          </div>
+          <div class="set-row">
+            <div class="set-row-l"><div class="set-row-ic" style="background:rgba(212,13,21,.1)"><svg class="i" style="color:var(--red)"><use href="#i-ban"/></svg></div><div><div class="set-row-lbl">Supprimer mon compte</div><div class="set-row-desc">Action irréversible — toutes vos données seront perdues</div></div></div>
+            <button class="btn-danger" onclick="deleteMyAccount()">Supprimer</button>
           </div>
         </div>
       </div>
@@ -871,8 +1372,15 @@ input,textarea,select{font-family:var(--font-body)}
       <div class="set-sec" id="set-appearance">
         <div class="set-sec-title">Apparence</div>
         <div class="set-sec-sub">Personnalisez l'interface à votre goût</div>
-
-        <!-- Couleur -->
+        <div class="set-card">
+          <div class="set-card-title">Thème</div>
+          <div class="set-card-sub">Ambiance générale de l'interface</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="q-btn on" id="theme-dark" onclick="setTheme('dark',this)">🌑 Sombre</button>
+            <button class="q-btn" id="theme-amoled" onclick="setTheme('amoled',this)">⚫ AMOLED</button>
+            <button class="q-btn" id="theme-dim" onclick="setTheme('dim',this)">🌒 Dim</button>
+          </div>
+        </div>
         <div class="set-card">
           <div class="set-card-title">Couleur d'accentuation</div>
           <div class="set-card-sub">La couleur principale de toute l'interface</div>
@@ -887,8 +1395,6 @@ input,textarea,select{font-family:var(--font-body)}
             <div class="accent-sw" style="background:#1a9898" onclick="setAccent('#1a9898','#22b8b8',this)" title="Cyan"></div>
           </div>
         </div>
-
-        <!-- Police -->
         <div class="set-card">
           <div class="set-card-title">Police de caractères</div>
           <div class="set-card-sub">Choisissez la typographie de l'interface</div>
@@ -899,11 +1405,18 @@ input,textarea,select{font-family:var(--font-body)}
             <button class="font-btn" style="font-family:Georgia,serif" onclick="setFont('Georgia, serif',this)">Serif</button>
           </div>
         </div>
-
-        <!-- Coins arrondis -->
+        <div class="set-card">
+          <div class="set-card-title">Taille du texte</div>
+          <div class="set-card-sub">Ajustez la lisibilité de l'interface</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
+            <button class="q-btn" onclick="setFontSize('13px',this)">A petit</button>
+            <button class="q-btn on" onclick="setFontSize('15px',this)">A normal</button>
+            <button class="q-btn" onclick="setFontSize('17px',this)">A grand</button>
+          </div>
+        </div>
         <div class="set-card">
           <div class="set-card-title">Arrondi des cartes</div>
-          <div class="set-card-sub">Style des coins des éléments de l'interface</div>
+          <div class="set-card-sub">Style des coins des éléments</div>
           <div class="radius-row">
             <button class="rad-btn on" onclick="setRadius('4px',this)" title="Carré"><div class="rad-preview" style="border-radius:4px"></div></button>
             <button class="rad-btn" onclick="setRadius('10px',this)" title="Arrondi"><div class="rad-preview" style="border-radius:10px"></div></button>
@@ -911,18 +1424,12 @@ input,textarea,select{font-family:var(--font-body)}
             <button class="rad-btn" onclick="setRadius('20px',this)" title="Très arrondi"><div class="rad-preview" style="border-radius:20px"></div></button>
           </div>
         </div>
-
-        <!-- Effets visuels -->
         <div class="set-card">
-          <div class="set-card-title">Effets visuels</div>
-          <div class="set-row">
-            <div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-spark"/></svg></div><div><div class="set-row-lbl">Animations</div><div class="set-row-desc">Transitions et effets de mouvement</div></div></div>
-            <label class="toggle"><input type="checkbox" id="toggle-anim" checked onchange="toggleAnimations(this.checked)"/><div class="toggle-t"></div></label>
-          </div>
-          <div class="set-row">
-            <div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-eye"/></svg></div><div><div class="set-row-lbl">Effet de flou</div><div class="set-row-desc">Glassmorphism sur la navbar et les modals</div></div></div>
-            <label class="toggle"><input type="checkbox" id="toggle-blur" checked onchange="toggleBlur(this.checked)"/><div class="toggle-t"></div></label>
-          </div>
+          <div class="set-card-title">Effets visuels &amp; Performance</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-spark"/></svg></div><div><div class="set-row-lbl">Animations</div><div class="set-row-desc">Transitions et effets de mouvement</div></div></div><label class="toggle"><input type="checkbox" id="toggle-anim" checked onchange="toggleAnimations(this.checked)"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-eye"/></svg></div><div><div class="set-row-lbl">Effet de flou (blur)</div><div class="set-row-desc">Glassmorphism sur la navbar et les modals</div></div></div><label class="toggle"><input type="checkbox" id="toggle-blur" checked onchange="toggleBlur(this.checked)"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-flame"/></svg></div><div><div class="set-row-lbl">Autoplay hero</div><div class="set-row-desc">Défilement automatique du hero banner</div></div></div><label class="toggle"><input type="checkbox" id="toggle-hero-auto" checked onchange="toggleHeroAuto(this.checked)"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-lay"/></svg></div><div><div class="set-row-lbl">Mode compact</div><div class="set-row-desc">Cartes plus petites, plus de contenu à l'écran</div></div></div><label class="toggle"><input type="checkbox" id="toggle-compact" onchange="toggleCompact(this.checked)"/><div class="toggle-t"></div></label></div>
         </div>
       </div>
 
@@ -939,11 +1446,32 @@ input,textarea,select{font-family:var(--font-body)}
             <button class="q-btn" onclick="setQuality('720p',this)">720p</button>
             <button class="q-btn" onclick="setQuality('480p',this)">480p</button>
           </div>
-          <div style="margin-top:24px">
-            <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-play"/></svg></div><div><div class="set-row-lbl">Lecture automatique</div><div class="set-row-desc">Lire automatiquement le prochain épisode</div></div></div><label class="toggle"><input type="checkbox" checked/><div class="toggle-t"></div></label></div>
-            <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-sub"/></svg></div><div><div class="set-row-lbl">Sous-titres auto</div><div class="set-row-desc">Activer les sous-titres par défaut</div></div></div><label class="toggle"><input type="checkbox"/><div class="toggle-t"></div></label></div>
-            <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-clk"/></svg></div><div><div class="set-row-lbl">Auto-resume</div><div class="set-row-desc">Reprendre là où vous vous êtes arrêté</div></div></div><label class="toggle"><input type="checkbox" checked/><div class="toggle-t"></div></label></div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title">Vitesse de lecture</div>
+          <div class="q-btns">
+            <button class="q-btn" onclick="setSpeed('0.5x',this)">0.5×</button>
+            <button class="q-btn" onclick="setSpeed('0.75x',this)">0.75×</button>
+            <button class="q-btn on" onclick="setSpeed('1x',this)">1× Normal</button>
+            <button class="q-btn" onclick="setSpeed('1.25x',this)">1.25×</button>
+            <button class="q-btn" onclick="setSpeed('1.5x',this)">1.5×</button>
+            <button class="q-btn" onclick="setSpeed('2x',this)">2×</button>
           </div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title">Comportement</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-play"/></svg></div><div><div class="set-row-lbl">Lecture automatique</div><div class="set-row-desc">Lire automatiquement le prochain épisode</div></div></div><label class="toggle"><input type="checkbox" id="toggle-autoplay" checked/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-sub"/></svg></div><div><div class="set-row-lbl">Sous-titres auto</div><div class="set-row-desc">Activer les sous-titres par défaut</div></div></div><label class="toggle"><input type="checkbox" id="toggle-subs"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-clk"/></svg></div><div><div class="set-row-lbl">Auto-resume</div><div class="set-row-desc">Reprendre là où vous vous êtes arrêté</div></div></div><label class="toggle"><input type="checkbox" id="toggle-resume" checked/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-vol"/></svg></div><div><div class="set-row-lbl">Lecture muette par défaut</div><div class="set-row-desc">Démarrer les vidéos sans son</div></div></div><label class="toggle"><input type="checkbox" id="toggle-mute"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-full"/></svg></div><div><div class="set-row-lbl">Plein écran auto</div><div class="set-row-desc">Passer en plein écran au lancement</div></div></div><label class="toggle"><input type="checkbox" id="toggle-fullscreen"/><div class="toggle-t"></div></label></div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title">Lecture manga</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-book"/></svg></div><div><div class="set-row-lbl">Mode lecture</div><div class="set-row-desc">Direction de lecture des mangas</div></div></div>
+            <select class="set-select" id="manga-dir" onchange="setMangaDir(this.value)"><option value="ltr">Gauche → Droite</option><option value="rtl">Droite → Gauche (JP)</option></select>
+          </div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-lay"/></svg></div><div><div class="set-row-lbl">Mode défilement</div><div class="set-row-desc">Scroll vertical au lieu de pages</div></div></div><label class="toggle"><input type="checkbox" id="toggle-manga-scroll"/><div class="toggle-t"></div></label></div>
         </div>
       </div>
 
@@ -952,10 +1480,19 @@ input,textarea,select{font-family:var(--font-body)}
         <div class="set-sec-title">Notifications</div>
         <div class="set-sec-sub">Gérez vos alertes et recommandations</div>
         <div class="set-card">
-          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-bell"/></svg></div><div><div class="set-row-lbl">Nouvelles sorties</div><div class="set-row-desc">Alertes quand un nouveau titre est ajouté</div></div></div><label class="toggle"><input type="checkbox" checked/><div class="toggle-t"></div></label></div>
-          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-spark"/></svg></div><div><div class="set-row-lbl">Recommandations</div><div class="set-row-desc">Suggestions personnalisées hebdomadaires</div></div></div><label class="toggle"><input type="checkbox" checked/><div class="toggle-t"></div></label></div>
-          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-clk"/></svg></div><div><div class="set-row-lbl">Rappels de visionnage</div><div class="set-row-desc">Reprendre un titre commencé</div></div></div><label class="toggle"><input type="checkbox"/><div class="toggle-t"></div></label></div>
-          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-star"/></svg></div><div><div class="set-row-lbl">Animes en cours</div><div class="set-row-desc">Alertes pour les nouveaux épisodes</div></div></div><label class="toggle"><input type="checkbox" checked/><div class="toggle-t"></div></label></div>
+          <div class="set-card-title">Alertes générales</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-bell"/></svg></div><div><div class="set-row-lbl">Nouvelles sorties</div><div class="set-row-desc">Alertes quand un nouveau titre est ajouté</div></div></div><label class="toggle"><input type="checkbox" id="notif-new" checked/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-spark"/></svg></div><div><div class="set-row-lbl">Recommandations</div><div class="set-row-desc">Suggestions personnalisées hebdomadaires</div></div></div><label class="toggle"><input type="checkbox" id="notif-reco" checked/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-clk"/></svg></div><div><div class="set-row-lbl">Rappels de visionnage</div><div class="set-row-desc">Reprendre un titre commencé</div></div></div><label class="toggle"><input type="checkbox" id="notif-remind"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-star"/></svg></div><div><div class="set-row-lbl">Nouveaux épisodes animes</div><div class="set-row-desc">Alertes pour les suites d'animes suivis</div></div></div><label class="toggle"><input type="checkbox" id="notif-anime" checked/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-book"/></svg></div><div><div class="set-row-lbl">Nouveaux chapitres manga</div><div class="set-row-desc">Alertes pour les scans suivis</div></div></div><label class="toggle"><input type="checkbox" id="notif-manga" checked/><div class="toggle-t"></div></label></div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title">Canal de notification</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-bell"/></svg></div><div><div class="set-row-lbl">Notifications push</div><div class="set-row-desc">Via le navigateur (nécessite autorisation)</div></div></div>
+            <button class="btn btn-g btn-sm" onclick="requestPush()">Activer</button>
+          </div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-globe"/></svg></div><div><div class="set-row-lbl">Notifications par email</div><div class="set-row-desc">Résumé hebdomadaire dans votre boîte mail</div></div></div><label class="toggle"><input type="checkbox" id="notif-email"/><div class="toggle-t"></div></label></div>
         </div>
       </div>
 
@@ -965,11 +1502,37 @@ input,textarea,select{font-family:var(--font-body)}
         <div class="set-sec-sub">Configurez votre langue et votre région</div>
         <div class="set-card">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-            <div><label class="set-lbl">Langue interface</label><select class="set-select" style="width:100%"><option>Français</option><option>English</option><option>Español</option><option>日本語</option><option>Português</option></select></div>
-            <div><label class="set-lbl">Langue audio</label><select class="set-select" style="width:100%"><option>Français (VF)</option><option>Japonais (VO)</option><option>Anglais (VO)</option></select></div>
-            <div><label class="set-lbl">Sous-titres</label><select class="set-select" style="width:100%"><option>Français</option><option>English</option><option>Désactivés</option></select></div>
-            <div><label class="set-lbl">Région</label><select class="set-select" style="width:100%"><option>France</option><option>Belgique</option><option>Suisse</option><option>Canada</option><option>Guyane française</option><option>Martinique</option><option>Réunion</option></select></div>
+            <div><label class="set-lbl">Langue interface</label><select class="set-select" style="width:100%"><option>Français</option><option>English</option><option>Español</option><option>日本語</option><option>Português</option><option>العربية</option></select></div>
+            <div><label class="set-lbl">Langue audio préférée</label><select class="set-select" style="width:100%"><option>Français (VF)</option><option>Japonais (VO)</option><option>Anglais (VO)</option><option>Multi</option></select></div>
+            <div><label class="set-lbl">Sous-titres par défaut</label><select class="set-select" style="width:100%"><option>Français</option><option>English</option><option>Désactivés</option></select></div>
+            <div><label class="set-lbl">Région</label><select class="set-select" style="width:100%"><option>France</option><option>Belgique</option><option>Suisse</option><option>Canada</option><option>Guadeloupe</option><option>Martinique</option><option>Guyane française</option><option>Réunion</option><option>Mayotte</option></select></div>
+            <div><label class="set-lbl">Format de date</label><select class="set-select" style="width:100%"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select></div>
+            <div><label class="set-lbl">Fuseau horaire</label><select class="set-select" style="width:100%"><option>Europe/Paris (UTC+1)</option><option>America/Guadeloupe (UTC-4)</option><option>America/Martinique (UTC-4)</option><option>Indian/Reunion (UTC+4)</option><option>UTC</option></select></div>
           </div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title">Contrôle parental</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-sh"/></svg></div><div><div class="set-row-lbl">Filtrer le contenu adulte</div><div class="set-row-desc">Masquer les contenus classés TV-MA et R</div></div></div><label class="toggle"><input type="checkbox" id="toggle-parental"/><div class="toggle-t"></div></label></div>
+          <div class="set-row" style="align-items:flex-start;padding-top:14px"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-sh"/></svg></div><div><div class="set-row-lbl">Code PIN parental</div><div class="set-row-desc">Protéger les paramètres avec un PIN à 4 chiffres</div></div></div>
+            <input type="password" class="set-in" maxlength="4" placeholder="PIN" style="width:90px;text-align:center;letter-spacing:6px;font-size:18px;padding:8px"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCESSIBILITÉ -->
+      <div class="set-sec" id="set-access">
+        <div class="set-sec-title">Accessibilité</div>
+        <div class="set-sec-sub">Options pour améliorer votre confort de navigation</div>
+        <div class="set-card">
+          <div class="set-card-title">Visuel</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-eye"/></svg></div><div><div class="set-row-lbl">Contraste élevé</div><div class="set-row-desc">Augmente le contraste des textes et interfaces</div></div></div><label class="toggle"><input type="checkbox" id="toggle-contrast" onchange="toggleContrast(this.checked)"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-spark"/></svg></div><div><div class="set-row-lbl">Réduire les animations</div><div class="set-row-desc">Moins d'effets de mouvement (épilepsie)</div></div></div><label class="toggle"><input type="checkbox" id="toggle-reduce-motion" onchange="toggleAnimations(!this.checked)"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-type"/></svg></div><div><div class="set-row-lbl">Police dyslexique</div><div class="set-row-desc">Police optimisée pour la dyslexie</div></div></div><label class="toggle"><input type="checkbox" id="toggle-dyslexic" onchange="toggleDyslexic(this.checked)"/><div class="toggle-t"></div></label></div>
+        </div>
+        <div class="set-card">
+          <div class="set-card-title">Navigation</div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-sub"/></svg></div><div><div class="set-row-lbl">Sous-titres toujours visibles</div><div class="set-row-desc">Afficher les sous-titres en permanence</div></div></div><label class="toggle"><input type="checkbox" id="toggle-always-sub"/><div class="toggle-t"></div></label></div>
+          <div class="set-row"><div class="set-row-l"><div class="set-row-ic"><svg class="i"><use href="#i-vol"/></svg></div><div><div class="set-row-lbl">Audio description</div><div class="set-row-desc">Narration des éléments visuels</div></div></div><label class="toggle"><input type="checkbox" id="toggle-audiodesc"/><div class="toggle-t"></div></label></div>
         </div>
       </div>
 
@@ -999,51 +1562,347 @@ input,textarea,select{font-family:var(--font-body)}
           <div class="set-card-title">Derniers visionnés</div>
           <div id="stat-recent" style="margin-top:14px"></div>
         </div>
+        <div class="set-card">
+          <div class="set-card-title">Exporter mes données</div>
+          <div class="set-card-sub">Télécharger votre historique et vos listes</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-g btn-sm" onclick="exportData('json')"><svg class="i"><use href="#i-check"/></svg> JSON</button>
+            <button class="btn btn-g btn-sm" onclick="exportData('csv')"><svg class="i"><use href="#i-check"/></svg> CSV</button>
+          </div>
+        </div>
       </div>
 
       <!-- ADMIN -->
       <div class="set-sec" id="set-admin">
         <div class="set-sec-title">Administration</div>
-        <div class="set-sec-sub">Gestion du catalogue — accès réservé aux administrateurs</div>
+        <div class="set-sec-sub">Gestion complète de SUFLIX</div>
 
-        <div class="set-card">
-          <div class="set-card-title">Ajouter un titre</div>
-          <div class="set-card-sub">Film, série ou anime au catalogue SUFLIX</div>
-          <div class="add-grid">
-            <div class="full"><label class="set-lbl">Titre *</label><input type="text" class="set-in" id="add-title" placeholder="ex: Dragon Ball Z"/></div>
-            <div>
-              <label class="set-lbl">Type *</label>
-              <select class="set-select" id="add-type" style="width:100%">
-                <option value="movie">Film</option><option value="series">Série</option><option value="anime">Anime</option>
-              </select>
-            </div>
-            <div>
-              <label class="set-lbl">Genre *</label>
-              <select class="set-select" id="add-genre" style="width:100%">
-                <option value="action">Action</option><option value="scifi">Sci-Fi</option><option value="fantasy">Fantasy</option><option value="thriller">Thriller</option><option value="horror">Horreur</option><option value="drama">Drame</option><option value="comedy">Comédie</option><option value="shonen">Shonen</option><option value="seinen">Seinen</option><option value="isekai">Isekai</option>
-              </select>
-            </div>
-            <div><label class="set-lbl">Année</label><input type="number" class="set-in" id="add-year" placeholder="2024" min="1960" max="2030"/></div>
-            <div><label class="set-lbl">Durée / Épisodes</label><input type="text" class="set-in" id="add-dur" placeholder="ex: 2h 14m ou S1 · 26 ép."/></div>
-            <div class="full"><label class="set-lbl">URL Vidéo (YouTube embed, etc.)</label><input type="url" class="set-in" id="add-video" placeholder="https://www.youtube.com/embed/VIDEO_ID"/></div>
-            <div class="full"><label class="set-lbl">URL Affiche</label><input type="url" class="set-in" id="add-poster" placeholder="https://image.tmdb.org/t/p/w500/..."/></div>
-            <div class="full"><label class="set-lbl">Synopsis</label><textarea class="set-in" id="add-synopsis" rows="3" placeholder="Description du contenu..." style="resize:vertical"></textarea></div>
-            <div><label class="set-lbl">Studio / Réalisateur</label><input type="text" class="set-in" id="add-dir" placeholder="ex: MAPPA"/></div>
-            <div><label class="set-lbl">Tags (virgule)</label><input type="text" class="set-in" id="add-tags" placeholder="ex: Combat, Magie, Shonen"/></div>
-            <div><label class="set-lbl">Classification</label><select class="set-select" id="add-rating" style="width:100%"><option value="G">G</option><option value="PG">PG</option><option value="PG-13" selected>PG-13</option><option value="R">R</option><option value="TV-MA">TV-MA</option><option value="TV-14">TV-14</option></select></div>
-            <div><label class="set-lbl">Score (%)</label><input type="number" class="set-in" id="add-match" placeholder="90" min="1" max="100"/></div>
-            <div class="full"><button class="btn btn-r" onclick="addContent()"><svg class="i"><use href="#i-plus"/></svg> Ajouter au catalogue</button></div>
+        <div class="admin-tabs">
+          <div class="admin-tab on" onclick="showAdmin('dashboard',this)">📊 Dashboard</div>
+          <div class="admin-tab" onclick="showAdmin('catalogue',this)">🎬 Catalogue</div>
+          <div class="admin-tab" onclick="showAdmin('mangas',this)">📚 Mangas</div>
+          <div class="admin-tab" onclick="showAdmin('users',this)">👥 Users</div>
+          <div class="admin-tab" onclick="showAdmin('danger',this)" style="color:#ff6b6b">⚠️ Danger</div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="admin-sec on" id="admin-dashboard">
+          <div class="admin-stat-grid" id="admin-stat-grid">
+            <div class="admin-stat-card"><div class="admin-stat-n" id="adm-cat">0</div><div class="admin-stat-l">Titres</div></div>
+            <div class="admin-stat-card"><div class="admin-stat-n" id="adm-manga">0</div><div class="admin-stat-l">Mangas</div></div>
+            <div class="admin-stat-card"><div class="admin-stat-n" id="adm-users-n">—</div><div class="admin-stat-l">Membres</div></div>
+            <div class="admin-stat-card"><div class="admin-stat-n" id="adm-lists-n">—</div><div class="admin-stat-l">Listes</div></div>
+          </div>
+          <div class="set-card">
+            <div class="set-card-title">Derniers ajouts</div>
+            <div id="admin-recent-list" style="margin-top:12px"></div>
+          </div>
+          <div class="set-card" style="margin-top:14px">
+            <div class="set-card-title">Genres au catalogue</div>
+            <div id="admin-genre-stats" style="margin-top:12px"></div>
           </div>
         </div>
 
-        <div class="set-card">
-          <div class="set-card-title">Catalogue complet (<span id="cat-count">0</span> titres)</div>
+        <!-- CATALOGUE -->
+        <div class="admin-sec" id="admin-catalogue">
+          <div class="set-card">
+            <div class="set-card-title">Ajouter un titre</div>
+            <div class="add-grid">
+              <div class="full"><label class="set-lbl">Titre *</label><input type="text" class="set-in" id="add-title" placeholder="ex: Dragon Ball Z"/></div>
+              <div><label class="set-lbl">Type *</label><select class="set-select" id="add-type" style="width:100%"><option value="movie">Film</option><option value="series">Série</option><option value="anime">Anime</option></select></div>
+              <div><label class="set-lbl">Genre *</label><select class="set-select" id="add-genre" style="width:100%"><option value="action">Action</option><option value="scifi">Sci-Fi</option><option value="fantasy">Fantasy</option><option value="thriller">Thriller</option><option value="horror">Horreur</option><option value="drama">Drame</option><option value="comedy">Comédie</option><option value="shonen">Shonen</option><option value="seinen">Seinen</option><option value="isekai">Isekai</option></select></div>
+              <div><label class="set-lbl">Année</label><input type="number" class="set-in" id="add-year" placeholder="2024" min="1960" max="2030"/></div>
+              <div><label class="set-lbl">Durée</label><input type="text" class="set-in" id="add-dur" placeholder="2h 14m ou S1 · 26 ép."/></div>
+              <div class="full"><label class="set-lbl">URL Vidéo (embed)</label><input type="url" class="set-in" id="add-video" placeholder="https://..."/></div>
+              <div class="full"><label class="set-lbl">URL Affiche</label><input type="url" class="set-in" id="add-poster" placeholder="https://image.tmdb.org/..."/></div>
+              <div class="full"><label class="set-lbl">Synopsis</label><textarea class="set-in" id="add-synopsis" rows="3" placeholder="Description..." style="resize:vertical"></textarea></div>
+              <div><label class="set-lbl">Studio / Réal.</label><input type="text" class="set-in" id="add-dir" placeholder="ex: MAPPA"/></div>
+              <div><label class="set-lbl">Tags (virgule)</label><input type="text" class="set-in" id="add-tags" placeholder="ex: Combat, Magie"/></div>
+              <div><label class="set-lbl">Classification</label><select class="set-select" id="add-rating" style="width:100%"><option value="G">G</option><option value="PG">PG</option><option value="PG-13" selected>PG-13</option><option value="R">R</option><option value="TV-MA">TV-MA</option><option value="TV-14">TV-14</option></select></div>
+              <div><label class="set-lbl">Score (%)</label><input type="number" class="set-in" id="add-match" placeholder="90" min="1" max="100"/></div>
+              <div class="full"><button class="btn btn-r" onclick="addContent()"><svg class="i"><use href="#i-plus"/></svg> Ajouter au catalogue</button></div>
+            </div>
+          </div>
+          <div class="set-card" style="margin-top:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+              <div class="set-card-title" style="margin:0">Catalogue complet (<span id="cat-count">0</span> titres)</div>
+              <div style="display:flex;gap:8px">
+                <input type="text" class="set-in" id="cat-search" placeholder="Rechercher..." style="padding:7px 12px;font-size:13px;width:180px" oninput="renderCatTable()"/>
+                <select class="set-select" id="cat-filter" onchange="renderCatTable()" style="padding:7px 10px;font-size:13px">
+                  <option value="all">Tous</option><option value="movie">Films</option><option value="series">Séries</option><option value="anime">Animes</option>
+                </select>
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="cat-table"><thead><tr><th>Affiche</th><th>Titre</th><th>Type</th><th>Genre</th><th>Année</th><th>Vidéo</th><th>Actions</th></tr></thead><tbody id="cat-tbody"></tbody></table>
+            </div>
+          </div>
+        </div>
+
+        <!-- MANGAS -->
+        <div class="admin-sec" id="admin-mangas">
+          <div class="set-card">
+            <div class="set-card-title">Ajouter un manga</div>
+            <div class="add-manga-grid">
+              <div class="full"><label class="set-lbl">Titre *</label><input type="text" class="set-in" id="mg-title" placeholder="ex: Naruto"/></div>
+              <div><label class="set-lbl">Genre</label><select class="set-select" id="mg-genre" style="width:100%"><option value="shonen">Shonen</option><option value="seinen">Seinen</option><option value="shojo">Shojo</option><option value="isekai">Isekai</option><option value="action">Action</option><option value="romance">Romance</option><option value="horror">Horror</option></select></div>
+              <div><label class="set-lbl">Statut</label><select class="set-select" id="mg-status" style="width:100%"><option value="ongoing">En cours</option><option value="completed">Terminé</option><option value="hiatus">Pause</option></select></div>
+              <div><label class="set-lbl">Nb chapitres</label><input type="number" class="set-in" id="mg-chaps" placeholder="ex: 700"/></div>
+              <div><label class="set-lbl">Auteur</label><input type="text" class="set-in" id="mg-author" placeholder="ex: Masashi Kishimoto"/></div>
+              <div class="full"><label class="set-lbl">URL Cover</label><input type="url" class="set-in" id="mg-cover" placeholder="https://..."/></div>
+              <div class="full"><label class="set-lbl">Synopsis</label><textarea class="set-in" id="mg-synopsis" rows="2" placeholder="Description..." style="resize:vertical"></textarea></div>
+              <div class="full"><label class="set-lbl">Source pages (URL de base, optionnel)</label><input type="url" class="set-in" id="mg-source" placeholder="https://..."/></div>
+              <div class="full"><button class="btn btn-r" onclick="addManga()"><svg class="i"><use href="#i-plus"/></svg> Ajouter le manga</button></div>
+            </div>
+          </div>
+          <div class="set-card" style="margin-top:14px">
+            <div class="set-card-title">Mangas (<span id="manga-count">0</span>)</div>
+            <div style="overflow-x:auto;margin-top:12px">
+              <table class="cat-table"><thead><tr><th>Titre</th><th>Genre</th><th>Chapitres</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="manga-tbody"></tbody></table>
+            </div>
+          </div>
+        </div>
+
+        <!-- UTILISATEURS -->
+        <div class="admin-sec" id="admin-users">
+          <div class="set-card">
+            <div class="set-card-title">Membres (<span id="users-count">—</span>)</div>
+            <div style="margin-bottom:14px;margin-top:8px">
+              <button class="btn btn-g btn-sm" onclick="loadAdminUsers()"><svg class="i"><use href="#i-users"/></svg> Charger les membres</button>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="u-table"><thead><tr><th>Utilisateur</th><th>Email</th><th>Rôle</th><th>Inscrit le</th><th>Actions</th></tr></thead><tbody id="users-tbody"><tr><td colspan="5" style="color:var(--t3);padding:20px;text-align:center">Cliquez "Charger les membres" pour afficher</td></tr></tbody></table>
+            </div>
+          </div>
+          <div class="set-card" style="margin-top:14px">
+            <div class="set-card-title">Listes utilisateurs</div>
+            <div style="margin-top:8px">
+              <button class="btn btn-g btn-sm" onclick="loadAdminLists()"><svg class="i"><use href="#i-list"/></svg> Voir toutes les listes</button>
+            </div>
+            <div id="admin-lists-view" style="margin-top:14px"></div>
+          </div>
+          <div class="set-card" style="margin-top:14px">
+            <div class="set-card-title">Historiques de visionnage</div>
+            <div style="margin-top:8px">
+              <button class="btn btn-g btn-sm" onclick="loadAdminHistory()"><svg class="i"><use href="#i-clk"/></svg> Voir les historiques</button>
+            </div>
+            <div id="admin-history-view" style="margin-top:14px"></div>
+          </div>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="admin-sec" id="admin-danger">
+          <div class="admin-danger-card">
+            <div class="admin-danger-title"><svg class="i" style="width:16px;height:16px"><use href="#i-trash"/></svg> Supprimer tout l'historique</div>
+            <div class="admin-danger-desc">Efface tous les historiques de visionnage de tous les utilisateurs. Action irréversible.</div>
+            <button class="btn-danger" onclick="adminClearAllHistory()"><svg class="i" style="width:14px;height:14px"><use href="#i-trash"/></svg> Tout l'historique</button>
+          </div>
+          <div class="admin-danger-card">
+            <div class="admin-danger-title"><svg class="i" style="width:16px;height:16px"><use href="#i-trash"/></svg> Supprimer toutes les listes</div>
+            <div class="admin-danger-desc">Vide la liste "Ma Liste" de tous les utilisateurs. Action irréversible.</div>
+            <button class="btn-danger" onclick="adminClearAllLists()"><svg class="i" style="width:14px;height:14px"><use href="#i-trash"/></svg> Toutes les listes</button>
+          </div>
+          <div class="admin-danger-card">
+            <div class="admin-danger-title"><svg class="i" style="width:16px;height:16px"><use href="#i-trash"/></svg> Vider le catalogue custom</div>
+            <div class="admin-danger-desc">Supprime tous les titres ajoutés manuellement (garde le catalogue par défaut). Action irréversible.</div>
+            <button class="btn-danger" onclick="adminClearCustomCat()"><svg class="i" style="width:14px;height:14px"><use href="#i-trash"/></svg> Catalogue custom</button>
+          </div>
+          <div class="admin-danger-card">
+            <div class="admin-danger-title"><svg class="i" style="width:16px;height:16px"><use href="#i-trash"/></svg> Vider les mangas custom</div>
+            <div class="admin-danger-desc">Supprime tous les mangas ajoutés manuellement. Action irréversible.</div>
+            <button class="btn-danger" onclick="adminClearCustomMangas()"><svg class="i" style="width:14px;height:14px"><use href="#i-trash"/></svg> Mangas custom</button>
+          </div>
+        </div>
+
+      </div><!-- /set-admin -->
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     ADMIN FULL PAGE
+════════════════════════════════════════════════════ -->
+<div id="page-admin" class="page">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sb-title">Administration</div>
+      <button class="admin-nav-btn on" onclick="showAdminPage('dashboard',this)"><svg class="i"><use href="#i-eye"/></svg><span>Dashboard</span></button>
+      <button class="admin-nav-btn" onclick="showAdminPage('catalogue',this)"><svg class="i"><use href="#i-film"/></svg><span>Catalogue</span><span class="admin-nav-badge" id="anb-cat-count">0</span></button>
+      <button class="admin-nav-btn" onclick="showAdminPage('mangas',this)"><svg class="i"><use href="#i-book"/></svg><span>Mangas</span><span class="admin-nav-badge" id="anb-mg-count">0</span></button>
+      <button class="admin-nav-btn" onclick="showAdminPage('users',this)"><svg class="i"><use href="#i-users"/></svg><span>Membres</span></button>
+      <button class="admin-nav-btn" onclick="showAdminPage('add',this)"><svg class="i"><use href="#i-plus"/></svg><span>Ajouter</span></button>
+      <button class="admin-nav-btn" onclick="showAdminPage('activity',this)"><svg class="i"><use href="#i-clk"/></svg><span>Activité</span></button>
+      <button class="admin-nav-btn" onclick="showAdminPage('danger',this)" style="color:rgba(212,13,21,.7)"><svg class="i"><use href="#i-ban"/></svg><span>Danger</span></button>
+    </aside>
+    <div class="admin-content-area">
+
+      <!-- DASHBOARD -->
+      <div class="admin-page on" id="admp-dashboard">
+        <div class="admin-ph">
+          <div><h2>Dashboard</h2><p>Vue d'ensemble de SUFLIX</p></div>
+          <button class="btn btn-g btn-sm" onclick="refreshAdminDashboard()"><svg class="i"><use href="#i-spark"/></svg> Actualiser</button>
+        </div>
+        <div class="admin-stats">
+          <div class="astat"><div class="astat-icon" style="background:rgba(212,13,21,.12)"><svg class="i" style="color:var(--red)"><use href="#i-film"/></svg></div><div class="astat-n" id="dash-cat">0</div><div class="astat-l">Titres</div></div>
+          <div class="astat"><div class="astat-icon" style="background:rgba(120,80,255,.12)"><svg class="i" style="color:#a080ff"><use href="#i-book"/></svg></div><div class="astat-n" id="dash-manga">0</div><div class="astat-l">Mangas</div></div>
+          <div class="astat"><div class="astat-icon" style="background:rgba(62,207,106,.12)"><svg class="i" style="color:var(--grn)"><use href="#i-users"/></svg></div><div class="astat-n" id="dash-users">—</div><div class="astat-l">Membres</div></div>
+          <div class="astat"><div class="astat-icon" style="background:rgba(255,200,0,.1)"><svg class="i" style="color:#ffd700"><use href="#i-heart"/></svg></div><div class="astat-n" id="dash-lists">—</div><div class="astat-l">Listes</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
+          <div class="admin-card" style="margin-bottom:0">
+            <div class="admin-card-hd"><div><div class="admin-card-title">Derniers ajouts</div></div></div>
+            <div id="dash-recent"></div>
+          </div>
+          <div class="admin-card" style="margin-bottom:0">
+            <div class="admin-card-hd"><div><div class="admin-card-title">Genres</div></div></div>
+            <div id="dash-genres"></div>
+          </div>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-hd"><div><div class="admin-card-title">⭐ Contenu en vedette (Hero)</div><div class="admin-card-sub">Cliquez sur un titre du catalogue pour l'ajouter/retirer</div></div></div>
+          <div id="dash-featured" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+        </div>
+      </div>
+
+      <!-- CATALOGUE -->
+      <div class="admin-page" id="admp-catalogue">
+        <div class="admin-ph">
+          <div><h2>Catalogue</h2><p id="admp-cat-sub">—</p></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <div class="admin-search"><svg class="i"><use href="#i-search"/></svg><input type="text" id="adm-cat-q" placeholder="Chercher..." oninput="renderAdmCat()"/></div>
+            <select class="set-select" id="adm-cat-type" onchange="renderAdmCat()" style="padding:8px 28px 8px 10px;font-size:13px"><option value="all">Tous</option><option value="movie">Films</option><option value="series">Séries</option><option value="anime">Animes</option></select>
+            <button class="btn btn-r btn-sm" onclick="showAdminPage('add',null)"><svg class="i"><use href="#i-plus"/></svg> Ajouter</button>
+          </div>
+        </div>
+        <div class="admin-card" style="padding:0;overflow:hidden">
           <div style="overflow-x:auto">
-            <table class="cat-table"><thead><tr><th>Titre</th><th>Type</th><th>Genre</th><th>Année</th><th>Vidéo</th><th>Actions</th></tr></thead><tbody id="cat-tbody"></tbody></table>
+            <table class="cat-table"><thead><tr><th style="width:44px"></th><th>Titre</th><th>Type</th><th>Genre</th><th>Année</th><th>Score</th><th>Vidéo</th><th style="width:120px">Actions</th></tr></thead>
+            <tbody id="adm-cat-tbody"></tbody></table>
           </div>
         </div>
       </div>
 
+      <!-- MANGAS -->
+      <div class="admin-page" id="admp-mangas">
+        <div class="admin-ph">
+          <div><h2>Mangas</h2><p id="admp-mg-sub">—</p></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <div class="admin-search"><svg class="i"><use href="#i-search"/></svg><input type="text" id="adm-mg-q" placeholder="Chercher..." oninput="renderAdmMg()"/></div>
+            <button class="btn btn-r btn-sm" onclick="ge('adm-add-mg-form').style.display=ge('adm-add-mg-form').style.display==='none'?'block':'none'"><svg class="i"><use href="#i-plus"/></svg> Ajouter</button>
+          </div>
+        </div>
+        <div class="admin-card" id="adm-add-mg-form" style="display:none;margin-bottom:18px">
+          <div class="admin-card-hd"><div class="admin-card-title">Nouveau manga</div></div>
+          <div class="add-manga-grid">
+            <div class="full"><label class="set-lbl">Titre *</label><input type="text" class="set-in" id="mg-title" placeholder="ex: Naruto"/></div>
+            <div><label class="set-lbl">Genre</label><select class="set-select" id="mg-genre" style="width:100%"><option value="shonen">Shonen</option><option value="seinen">Seinen</option><option value="shojo">Shojo</option><option value="isekai">Isekai</option><option value="action">Action</option><option value="romance">Romance</option><option value="horror">Horreur</option></select></div>
+            <div><label class="set-lbl">Statut</label><select class="set-select" id="mg-status" style="width:100%"><option value="ongoing">En cours</option><option value="completed">Terminé</option><option value="hiatus">Pause</option></select></div>
+            <div><label class="set-lbl">Chapitres</label><input type="number" class="set-in" id="mg-chaps" placeholder="700"/></div>
+            <div><label class="set-lbl">Auteur</label><input type="text" class="set-in" id="mg-author" placeholder="ex: Kishimoto"/></div>
+            <div class="full"><label class="set-lbl">URL Cover</label><input type="url" class="set-in" id="mg-cover" placeholder="https://..."/></div>
+            <div class="full"><label class="set-lbl">Synopsis</label><textarea class="set-in" id="mg-synopsis" rows="2" style="resize:none"></textarea></div>
+            <div class="full"><button class="btn btn-r" onclick="addManga()"><svg class="i"><use href="#i-plus"/></svg> Ajouter le manga</button></div>
+          </div>
+        </div>
+        <div class="admin-card" style="padding:0;overflow:hidden">
+          <div style="overflow-x:auto">
+            <table class="cat-table"><thead><tr><th>Titre</th><th>Auteur</th><th>Genre</th><th>Chapitres</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="adm-mg-tbody"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEMBRES -->
+      <div class="admin-page" id="admp-users">
+        <div class="admin-ph">
+          <div><h2>Membres</h2><p>Gestion des comptes utilisateurs</p></div>
+          <button class="btn btn-g btn-sm" onclick="loadAdminUsers2()"><svg class="i"><use href="#i-users"/></svg> Charger</button>
+        </div>
+        <div id="admp-users-grid" style="margin-bottom:18px"><div style="color:var(--t3);font-size:13px;padding:12px 0">Cliquez "Charger" pour afficher les membres.</div></div>
+        <div class="admin-card">
+          <div class="admin-card-hd"><div class="admin-card-title">Toutes les listes</div><button class="btn btn-g btn-sm" onclick="loadAdminLists2()">Charger</button></div>
+          <div id="admp-lists-view" style="margin-top:8px"></div>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-hd"><div class="admin-card-title">Historiques de visionnage</div><button class="btn btn-g btn-sm" onclick="loadAdminHistory2()">Charger</button></div>
+          <div id="admp-hist-view" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <!-- AJOUTER UN TITRE -->
+      <div class="admin-page" id="admp-add">
+        <div class="admin-ph"><div><h2>Ajouter un titre</h2><p>Film, série ou anime</p></div></div>
+        <div class="admin-card">
+          <div class="add-grid">
+            <div class="full"><label class="set-lbl">Titre *</label><input type="text" class="set-in" id="add-title" placeholder="ex: Dragon Ball Z"/></div>
+            <div><label class="set-lbl">Type *</label><select class="set-select" id="add-type" style="width:100%"><option value="movie">Film</option><option value="series">Série</option><option value="anime">Anime</option></select></div>
+            <div><label class="set-lbl">Genre *</label><select class="set-select" id="add-genre" style="width:100%"><option value="action">Action</option><option value="scifi">Sci-Fi</option><option value="fantasy">Fantasy</option><option value="thriller">Thriller</option><option value="horror">Horreur</option><option value="drama">Drame</option><option value="comedy">Comédie</option><option value="shonen">Shonen</option><option value="seinen">Seinen</option><option value="isekai">Isekai</option></select></div>
+            <div><label class="set-lbl">Année</label><input type="number" class="set-in" id="add-year" placeholder="2024" min="1960" max="2035"/></div>
+            <div><label class="set-lbl">Durée</label><input type="text" class="set-in" id="add-dur" placeholder="2h 14m ou S1 · 26 ép."/></div>
+            <div><label class="set-lbl">Score (%)</label><input type="number" class="set-in" id="add-match" placeholder="90" min="1" max="100"/></div>
+            <div><label class="set-lbl">Classification</label><select class="set-select" id="add-rating" style="width:100%"><option value="G">G</option><option value="PG">PG</option><option value="PG-13" selected>PG-13</option><option value="R">R</option><option value="TV-MA">TV-MA</option><option value="TV-14">TV-14</option></select></div>
+            <div class="full"><label class="set-lbl">URL Vidéo (embed YouTube, etc.)</label><input type="url" class="set-in" id="add-video" placeholder="https://www.youtube.com/embed/..."/></div>
+            <div class="full"><label class="set-lbl">URL Affiche</label><input type="url" class="set-in" id="add-poster" placeholder="https://image.tmdb.org/..."/></div>
+            <div class="full"><label class="set-lbl">Synopsis</label><textarea class="set-in" id="add-synopsis" rows="3" placeholder="Description..." style="resize:vertical"></textarea></div>
+            <div><label class="set-lbl">Studio / Réalisateur</label><input type="text" class="set-in" id="add-dir" placeholder="ex: MAPPA"/></div>
+            <div><label class="set-lbl">Tags (virgule)</label><input type="text" class="set-in" id="add-tags" placeholder="ex: Combat, Magie"/></div>
+            <div class="full" style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-r" onclick="addContent()"><svg class="i"><use href="#i-plus"/></svg> Ajouter au catalogue</button>
+              <button class="btn btn-g" onclick="clearAddForm()"><svg class="i"><use href="#i-x"/></svg> Effacer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ -->
+      <div class="admin-page" id="admp-activity">
+        <div class="admin-ph">
+          <div><h2>Journal d'activité</h2><p>Actions récentes</p></div>
+          <button class="btn btn-g btn-sm" onclick="clearActivityLog()"><svg class="i"><use href="#i-trash"/></svg> Effacer</button>
+        </div>
+        <div class="admin-card"><div class="activity-list" id="admp-activity-list"><div style="color:var(--t3);font-size:13px;padding:8px 0">Aucune activité enregistrée.</div></div></div>
+      </div>
+
+      <!-- DANGER ZONE -->
+      <div class="admin-page" id="admp-danger">
+        <div class="admin-ph"><div><h2 style="color:var(--red)">⚠️ Zone dangereuse</h2><p>Actions irréversibles — procéder avec extrême prudence</p></div></div>
+        <div class="danger-grid">
+          <div class="danger-card"><div class="dc-icon"><svg class="i"><use href="#i-clk"/></svg></div><div class="dc-title">Tout l'historique</div><div class="dc-desc">Efface tous les historiques de tous les utilisateurs.</div><button class="btn-danger" onclick="adminClearAllHistory()"><svg class="i" style="width:13px;height:13px"><use href="#i-trash"/></svg> Supprimer</button></div>
+          <div class="danger-card"><div class="dc-icon"><svg class="i"><use href="#i-heart"/></svg></div><div class="dc-title">Toutes les listes</div><div class="dc-desc">Vide la liste "Ma Liste" de chaque utilisateur.</div><button class="btn-danger" onclick="adminClearAllLists()"><svg class="i" style="width:13px;height:13px"><use href="#i-trash"/></svg> Supprimer</button></div>
+          <div class="danger-card"><div class="dc-icon"><svg class="i"><use href="#i-film"/></svg></div><div class="dc-title">Catalogue custom</div><div class="dc-desc">Supprime tous les titres ajoutés manuellement.</div><button class="btn-danger" onclick="adminClearCustomCat()"><svg class="i" style="width:13px;height:13px"><use href="#i-trash"/></svg> Supprimer</button></div>
+          <div class="danger-card"><div class="dc-icon"><svg class="i"><use href="#i-book"/></svg></div><div class="dc-title">Mangas custom</div><div class="dc-desc">Supprime tous les mangas ajoutés manuellement.</div><button class="btn-danger" onclick="adminClearCustomMangas()"><svg class="i" style="width:13px;height:13px"><use href="#i-trash"/></svg> Supprimer</button></div>
+          <div class="danger-card"><div class="dc-icon"><svg class="i"><use href="#i-users"/></svg></div><div class="dc-title">Bannir un membre</div><div class="dc-desc">Supprime le profil et les données d'un utilisateur.</div><div style="display:flex;gap:8px;margin-top:10px"><input type="text" class="set-in" id="ban-uid" placeholder="Email ou User ID" style="flex:1;padding:8px 12px;font-size:13px"/><button class="btn-danger" onclick="adminBanUser(ge('ban-uid').value)"><svg class="i" style="width:13px;height:13px"><use href="#i-ban"/></svg></button></div></div>
+          <div class="danger-card"><div class="dc-icon"><svg class="i"><use href="#i-trash"/></svg></div><div class="dc-title">Reset complet</div><div class="dc-desc">Efface TOUT — historiques, listes, catalogue custom, mangas custom.</div><button class="btn-danger" onclick="adminResetAll()"><svg class="i" style="width:13px;height:13px"><use href="#i-ban"/></svg> Reset total</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="edit-modal">
+  <div class="edit-box">
+    <div class="edit-box-title">
+      <span id="edit-modal-title">Modifier</span>
+      <button class="cat-btn" onclick="closeEditModal()"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="edit-grid">
+      <div class="full"><label class="set-lbl">Titre</label><input type="text" class="set-in" id="edit-title"/></div>
+      <div><label class="set-lbl">Type</label><select class="set-select" id="edit-type" style="width:100%"><option value="movie">Film</option><option value="series">Série</option><option value="anime">Anime</option></select></div>
+      <div><label class="set-lbl">Genre</label><select class="set-select" id="edit-genre" style="width:100%"><option value="action">Action</option><option value="scifi">Sci-Fi</option><option value="fantasy">Fantasy</option><option value="thriller">Thriller</option><option value="horror">Horreur</option><option value="drama">Drame</option><option value="comedy">Comédie</option><option value="shonen">Shonen</option><option value="seinen">Seinen</option><option value="isekai">Isekai</option></select></div>
+      <div><label class="set-lbl">Année</label><input type="number" class="set-in" id="edit-year"/></div>
+      <div><label class="set-lbl">Score (%)</label><input type="number" class="set-in" id="edit-match" min="1" max="100"/></div>
+      <div class="full"><label class="set-lbl">URL Vidéo</label><input type="url" class="set-in" id="edit-video"/></div>
+      <div class="full"><label class="set-lbl">URL Affiche</label><input type="url" class="set-in" id="edit-poster"/></div>
+      <div class="full"><label class="set-lbl">Synopsis</label><textarea class="set-in" id="edit-synopsis" rows="3" style="resize:none"></textarea></div>
+      <div><label class="set-lbl">Studio / Réal.</label><input type="text" class="set-in" id="edit-dir"/></div>
+      <div><label class="set-lbl">Durée</label><input type="text" class="set-in" id="edit-dur"/></div>
+      <div class="full" style="display:flex;gap:10px">
+        <button class="btn btn-r" style="flex:1" onclick="saveEdit()"><svg class="i"><use href="#i-check"/></svg> Enregistrer</button>
+        <button class="btn btn-g" onclick="closeEditModal()">Annuler</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1055,35 +1914,41 @@ input,textarea,select{font-family:var(--font-body)}
   <div class="mn-inner">
     <button class="mn-btn active" id="mnb-home" onclick="go('home')">
       <div class="mn-ic"><svg class="i"><use href="#i-home"/></svg></div>
-      <span>Home</span>
-    </button>
-    <button class="mn-btn" id="mnb-movies" onclick="go('movies')">
-      <div class="mn-ic"><svg class="i"><use href="#i-film"/></svg></div>
-      <span>Films</span>
+      <span>Accueil</span>
     </button>
     <button class="mn-btn" id="mnb-animes" onclick="go('animes')">
       <div class="mn-ic"><svg class="i"><use href="#i-spark"/></svg></div>
-      <span>Animes</span>
+      <span>Animés</span>
+    </button>
+    <button class="mn-btn" id="mnb-mangas" onclick="go('mangas')">
+      <div class="mn-ic"><svg class="i"><use href="#i-book"/></svg></div>
+      <span>Scans</span>
     </button>
     <button class="mn-btn" id="mnb-mylist" onclick="go('mylist')">
       <div class="mn-ic"><svg class="i"><use href="#i-heart"/></svg></div>
-      <span>Liste</span>
+      <span>Ma liste</span>
     </button>
     <button class="mn-btn" id="mnb-search" onclick="openSearch()">
       <div class="mn-ic"><svg class="i"><use href="#i-search"/></svg></div>
-      <span>Search</span>
+      <span>Chercher</span>
     </button>
   </div>
 </div>
 
 <!-- SEARCH -->
 <div id="search-ov">
-  <div class="search-wrap">
-    <div class="search-field"><svg class="i"><use href="#i-search"/></svg><input type="text" id="si" placeholder="Titres, genres, studios, acteurs..." oninput="doSearch(this.value)" autocomplete="off"/></div>
-    <div class="search-lbl" id="slbl">Tendances</div>
-    <div class="search-grid" id="sgrid"></div>
+  <div class="search-topbar">
+    <div class="nav-logo" onclick="closeSearch();go('home')">SUFLIX</div>
+    <div class="search-field">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input type="text" id="si" placeholder="Titres, genres, studios..." oninput="doSearch(this.value)" autocomplete="off" spellcheck="false"/>
+      <button class="search-clear" id="search-clear-btn" onclick="clearSearch()"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <button class="search-x" onclick="closeSearch()">Annuler</button>
   </div>
-  <button class="search-x" onclick="closeSearch()"><svg class="i"><use href="#i-x"/></svg></button>
+  <div class="search-body" id="search-body">
+    <!-- Filled by JS -->
+  </div>
 </div>
 
 <!-- DETAIL MODAL -->
@@ -1111,12 +1976,17 @@ input,textarea,select{font-family:var(--font-body)}
     <div></div>
   </div>
   <div class="p-screen">
+    <div class="p-gesture-area" id="p-gesture-left" style="position:absolute;top:0;left:0;width:35%;height:100%;z-index:9" ondblclick="seekBack10()"></div>
+    <div class="p-gesture-area" id="p-gesture-right" style="position:absolute;top:0;right:0;width:35%;height:100%;z-index:9" ondblclick="seekFwd10()"></div>
+    <div class="p-double-tap l" id="pdt-l">◄◄ 10s</div>
+    <div class="p-double-tap r" id="pdt-r">10s ►►</div>
+    <div class="player-loading"></div>
     <iframe id="pframe" class="p-iframe" allowfullscreen allow="autoplay"></iframe>
-  <div class="p-ph" id="pph">
-    <svg class="i" style="width:64px;height:64px;color:var(--s4)"><use href="#i-film"/></svg>
-    <div class="p-ph-text">Prêt à lire</div>
-    <div class="p-ph-sub">Ajoutez une URL vidéo via Admin → Ajouter un titre</div>
-  </div>
+    <div class="p-ph" id="pph">
+      <svg class="i" style="width:64px;height:64px;color:var(--s4)"><use href="#i-film"/></svg>
+      <div class="p-ph-text">Prêt à lire</div>
+      <div class="p-ph-sub">Ajoutez une URL vidéo via Admin → Catalogue</div>
+    </div>
   </div>
   <div class="nxt-ep" id="nxt">
     <div class="nxt-lbl">Prochain épisode</div>
@@ -1139,6 +2009,32 @@ input,textarea,select{font-family:var(--font-body)}
       <button class="pb"><svg class="i"><use href="#i-sub"/></svg></button>
       <button class="pb" onclick="tFull()"><svg class="i"><use href="#i-full"/></svg></button>
     </div>
+  </div>
+</div>
+
+<!-- MANGA READER -->
+<div id="manga-reader">
+  <div class="mr-top" id="mr-top">
+    <button class="mr-back" onclick="closeMangaReader()"><svg class="i"><use href="#i-al"/></svg></button>
+    <div class="mr-title" id="mr-title">Manga</div>
+    <div class="mr-info" id="mr-info">1 / 1</div>
+  </div>
+  <div class="mr-pages" id="mr-pages" onclick="toggleMrUi()">
+    <button class="mr-nav-btn l" id="mr-prev" onclick="event.stopPropagation();mrPrev()"><svg class="i"><use href="#i-cl"/></svg></button>
+    <img class="mr-page-img" id="mr-img" alt="" src="" ondblclick="event.stopPropagation();mrZoom()" onerror="this.style.display='none';document.getElementById('mr-fallback').style.display='flex'"/>
+    <div id="mr-fallback" class="mr-page-placeholder" style="display:none">
+      <svg class="i"><use href="#i-book"/></svg>
+      <div style="font-size:16px;font-weight:700">Page non disponible</div>
+      <div style="font-size:13px;color:var(--t4)">Ajoutez les URLs des pages via Admin</div>
+    </div>
+    <button class="mr-nav-btn r" id="mr-next" onclick="event.stopPropagation();mrNext()"><svg class="i"><use href="#i-cr"/></svg></button>
+  </div>
+  <div class="mr-bottom" id="mr-bottom">
+    <div class="mr-prog">
+      <div class="mr-track" onclick="mrSeek(event)"><div class="mr-fill" id="mr-fill" style="width:0%"></div></div>
+      <div class="mr-pg-num" id="mr-pg-num">1 / 1</div>
+    </div>
+    <div class="mr-chaps" id="mr-chaps"></div>
   </div>
 </div>
 
@@ -1348,7 +2244,128 @@ var CAT = [
 ];
 
 // ═══════════════════════════════════════════════
-// STATE
+// MANGA CATALOGUE
+// ═══════════════════════════════════════════════
+var BASE_MANGA = [
+  { id:1001, title:'Naruto', genre:'shonen', status:'completed', chapters:700, author:'Masashi Kishimoto', year:1999,
+    synopsis:"Naruto Uzumaki est un jeune ninja renfermant en lui le démon renard à neuf queues. Rêvant de devenir Hokage, il surmontera tous les obstacles avec ses amis.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/9/94/NarutoPart1.jpg',
+    tags:['Ninja','Action','Amitié'],
+    pages: genPages('naruto', 700, 20) },
+  { id:1002, title:'One Piece', genre:'shonen', status:'ongoing', chapters:1110, author:'Eiichiro Oda', year:1997,
+    synopsis:"Monkey D. Luffy et son équipage de pirates explorent un monde fabuleux à la recherche du légendaire trésor One Piece pour que Luffy devienne le Roi des Pirates.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/9/90/One_Piece%2C_Volume_61_Cover_%28Japanese%29.jpg',
+    tags:['Pirates','Aventure','Shonen'],
+    pages: genPages('one-piece', 1110, 18) },
+  { id:1003, title:'Dragon Ball', genre:'shonen', status:'completed', chapters:519, author:'Akira Toriyama', year:1984,
+    synopsis:"L'histoire de Son Goku depuis son enfance jusqu'à ses aventures épiques contre des ennemis de plus en plus puissants dans sa quête perpétuelle pour devenir le plus fort.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/a/a4/Dragon_Ball_Vol._1.jpg',
+    tags:['Combat','Super-Saiyan','Classique'],
+    pages: genPages('dragonball', 519, 22) },
+  { id:1004, title:'Attack on Titan', genre:'seinen', status:'completed', chapters:139, author:'Hajime Isayama', year:2009,
+    synopsis:"L'humanité survit derrière trois murs immenses pour se protéger des Titans. Eren Jäger s'engage dans l'armée après la destruction de sa ville natale.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/d/dc/Attack_on_Titan_01.jpg',
+    tags:['Dark','Action','Seinen'],
+    pages: genPages('aot', 139, 45) },
+  { id:1005, title:'Demon Slayer', genre:'shonen', status:'completed', chapters:205, author:'Koyoharu Gotouge', year:2016,
+    synopsis:"Tanjiro Kamado devient Pourfendeur de Démons pour sauver sa sœur et venger sa famille. Une œuvre visuellement splendide aux combats épiques.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/9/9f/Demon_Slayer-Kimetsu_no_Yaiba%2C_volume_1.jpg',
+    tags:['Démons','Action','Famille'],
+    pages: genPages('demon-slayer', 205, 20) },
+  { id:1006, title:'Jujutsu Kaisen', genre:'shonen', status:'completed', chapters:271, author:'Gege Akutami', year:2018,
+    synopsis:"Yuji Itadori avale un doigt de Ryomen Sukuna, le roi des fléaux, et intègre l'école de magie occulte pour combattre les malédictions. Un manga dark et percutant.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/6/67/JujutsuKaisen_vol1.jpg',
+    tags:['Magie','Combat','Dark'],
+    pages: genPages('jjk', 271, 20) },
+  { id:1007, title:'My Hero Academia', genre:'shonen', status:'completed', chapters:430, author:'Kohei Horikoshi', year:2014,
+    synopsis:"Dans un monde où 80% de la population possède un super-pouvoir, Izuku Midoriya né sans pouvoir hérite du One For All et devient le symbole de paix.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/6/60/My_Hero_Academia_Vol_1.png',
+    tags:['Super-héros','École','Action'],
+    pages: genPages('mha', 430, 18) },
+  { id:1008, title:'Fullmetal Alchemist', genre:'shonen', status:'completed', chapters:116, author:'Hiromu Arakawa', year:2001,
+    synopsis:"Deux frères alchimistes cherchent la Pierre Philosophale pour retrouver leurs corps perdus lors d'une transmutation humaine interdite. Un chef-d'œuvre.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/a/a5/Fullmetal_Alchemist_volume_1_cover.jpg',
+    tags:['Alchimie','Aventure','Frères'],
+    pages: genPages('fma', 116, 42) },
+  { id:1009, title:'Death Note', genre:'seinen', status:'completed', chapters:108, author:'Tsugumi Ohba', year:2003,
+    synopsis:"Light Yagami trouve un carnet capable de tuer. Se prenant pour un dieu, il décide de purger le monde du crime sous le nom de Kira, traqué par le mystérieux L.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/Death_Note%2C_volume_1.jpg/220px-Death_Note%2C_volume_1.jpg',
+    tags:['Thriller','Psychologique','Seinen'],
+    pages: genPages('death-note', 108, 38) },
+  { id:1010, title:'Bleach', genre:'shonen', status:'completed', chapters:686, author:'Tite Kubo', year:2001,
+    synopsis:"Ichigo Kurosaki devient Shinigami par accident et doit désormais défendre sa ville contre les Hollows. Un manga aux arcs épiques et aux designs iconiques.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/7/7b/Bleach_volume_1.jpg/220px-Bleach_volume_1.jpg',
+    tags:['Shinigami','Combat','Shonen'],
+    pages: genPages('bleach', 686, 18) },
+  { id:1011, title:'Hunter x Hunter', genre:'shonen', status:'ongoing', chapters:400, author:'Yoshihiro Togashi', year:1998,
+    synopsis:"Gon Freecss part en quête de son père, un Chasseur légendaire. Il rencontre Killua, Kurapika et Leorio dans un monde aux règles impitoyables.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/3/37/HxH_Manga_volume_1.png/220px-HxH_Manga_volume_1.png',
+    tags:['Aventure','Combat','Amitié'],
+    pages: genPages('hxh', 400, 22) },
+  { id:1012, title:'Vinland Saga', genre:'seinen', status:'ongoing', chapters:204, author:'Makoto Yukimura', year:2005,
+    synopsis:"Thorfinn cherche à venger son père en défiant Askeladd, le chef de mercenaires qui l'a tué. Un voyage épique à travers l'Europe viking du XIe siècle.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Vinland_Saga_manga_volume_1.jpg/220px-Vinland_Saga_manga_volume_1.jpg',
+    tags:['Viking','Historique','Seinen'],
+    pages: genPages('vinland', 204, 35) },
+  { id:1013, title:'Chainsaw Man', genre:'seinen', status:'ongoing', chapters:185, author:'Tatsuki Fujimoto', year:2019,
+    synopsis:"Denji fusionne avec son chien-diable Pochita pour devenir l'Homme-Tronçonneuse. Une œuvre chaos et unique qui subvertit tous les codes du manga.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/0/01/Chainsawman.jpg',
+    tags:['Démons','Dark','Action'],
+    pages: genPages('csm', 185, 20) },
+  { id:1014, title:'Spy x Family', genre:'comedy', status:'ongoing', chapters:108, author:'Tatsuya Endo', year:2019,
+    synopsis:"Un espion, une assassine et une télépathe forment une fausse famille. Personne ne connaît les secrets des autres. Hilarant et attachant.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/6/6a/Spy_X_Family_manga_volume_1_cover.jpg',
+    tags:['Comédie','Espionnage','Famille'],
+    pages: genPages('spy-family', 108, 20) },
+  { id:1015, title:'Berserk', genre:'seinen', status:'ongoing', chapters:374, author:'Kentaro Miura', year:1989,
+    synopsis:"Guts, le guerrier à l'épée immense, cherche vengeance contre Griffith après la trahison des Apôtres. L'un des mangas les plus sombres et influents jamais créés.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/9/9b/Berserk_v1.jpg/220px-Berserk_v1.jpg',
+    tags:['Dark Fantasy','Action','Seinen'],
+    pages: genPages('berserk', 374, 38) },
+  { id:1016, title:'Re:Zero', genre:'isekai', status:'ongoing', chapters:95, author:'Tappei Nagatsuki', year:2014,
+    synopsis:"Subaru est transporté dans un autre monde et découvre qu'il peut revenir à la vie après sa mort. Un isekai sombre et émotionnellement éprouvant.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/ReZero_manga_vol1.jpg/220px-ReZero_manga_vol1.jpg',
+    tags:['Isekai','Dark','Fantasy'],
+    pages: genPages('rezero', 95, 30) },
+  { id:1017, title:'Sword Art Online', genre:'isekai', status:'ongoing', chapters:86, author:'Reki Kawahara', year:2012,
+    synopsis:"Des joueurs sont piégés dans un MMO en réalité virtuelle : mourir dans le jeu signifie mourir dans la vraie vie. Kirito doit survivre et s'échapper.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/5/5b/SwordArtOnline_manga_1.jpg',
+    tags:['Isekai','VR','Action'],
+    pages: genPages('sao', 86, 28) },
+  { id:1018, title:'Tokyo Ghoul', genre:'seinen', status:'completed', chapters:179, author:'Sui Ishida', year:2011,
+    synopsis:"Ken Kaneki survit à une attaque de goule et devient mi-humain mi-goule. Il doit naviguer entre deux mondes en conflit dans un Tokyo sombre et sanglant.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Tokyo_Ghoul_Volume_1.jpg/220px-Tokyo_Ghoul_Volume_1.jpg',
+    tags:['Horreur','Dark','Seinen'],
+    pages: genPages('tg', 179, 32) },
+  { id:1019, title:'Black Clover', genre:'shonen', status:'ongoing', chapters:375, author:'Yūki Tabata', year:2015,
+    synopsis:"Asta, né sans magie dans un monde où elle est reine, aspire à devenir le Magicien Impérial. Il reçoit un grimoire aux pouvoirs anti-magie uniques.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/5/50/BlackCloverManga.jpg/220px-BlackCloverManga.jpg',
+    tags:['Magie','Shonen','Action'],
+    pages: genPages('bc', 375, 18) },
+  { id:1020, title:'Fairy Tail', genre:'shonen', status:'completed', chapters:545, author:'Hiro Mashima', year:2006,
+    synopsis:"La guilde Fairy Tail regroupe les mages les plus turbulents du monde. Lucy rêve de la rejoindre et rencontre Natsu, le Dragonslayer de Feu.",
+    cover:'https://upload.wikimedia.org/wikipedia/en/thumb/a/a0/FairyTail_vol1.jpg/220px-FairyTail_vol1.jpg',
+    tags:['Magie','Guilde','Action'],
+    pages: genPages('ft', 545, 18) },
+];
+
+function genPages(slug, chapCount, pagesPerChap) {
+  var chaps = [];
+  var max = Math.min(chapCount, 20); // store up to 20 chapters
+  for (var c = 1; c <= max; c++) {
+    var pages = [];
+    for (var p = 1; p <= pagesPerChap; p++) {
+      pages.push(''); // placeholder — admin can fill URLs
+    }
+    chaps.push({ n: c, title: 'Chapitre ' + c, pages: pages });
+  }
+  return chaps;
+}
+
+// Custom manga added by admin
+var customMangas = [];
+try { customMangas = JSON.parse(localStorage.getItem('sf_mangas') || '[]'); } catch(e) {}
+var MANGA_CAT = BASE_MANGA.concat(customMangas);
 // ═══════════════════════════════════════════════
 var user = null, profile = null, isAdmin = false;
 var myList = [], watchHist = {};
@@ -1615,11 +2632,6 @@ var gFilter = { movies:'all', series:'all', animes:'all' };
 // ═══════════════════════════════════════════════
 async function boot() {
   navScroll();
-  // Show Supabase banner if not configured
-  if (!SB_ON) {
-    var banner = ge('sb-banner');
-    if (banner) { banner.style.display = 'flex'; }
-  }
   if (SB_ON) await bootSB();
   else {
     try { myList = JSON.parse(localStorage.getItem('sf_list') || '[]'); } catch(e){}
@@ -1664,7 +2676,14 @@ async function bootSB() {
 async function loadProfile() {
   if (!sb || !user) return;
   var r = await sb.from('profiles').select('*').eq('user_id', user.id).single();
-  if (r.data) profile = r.data;
+  if (r.data) {
+    profile = r.data;
+    // Charger l'avatar sauvegardé sur le compte
+    if (r.data.avatar_url) {
+      setAvatarUrl(r.data.avatar_url);
+      localStorage.setItem('sf_avatar', r.data.avatar_url);
+    }
+  }
   else {
     var r2 = await sb.from('profiles').insert({ user_id: user.id, username: user.email.split('@')[0] }).select().single();
     profile = r2.data;
@@ -1734,9 +2753,278 @@ async function signOut() {
 function checkAdmin() {
   isAdmin = !!(user && ADMIN_EMAILS.indexOf(user.email) !== -1);
   var btn = ge('admin-btn');
+  var ddAdminBtn = ge('admin-dd-btn');
   var bdg = ge('dd-badge');
   if (btn) btn.style.display = isAdmin ? 'flex' : 'none';
+  if (ddAdminBtn) ddAdminBtn.style.display = isAdmin ? 'flex' : 'none';
   if (bdg) { bdg.textContent = isAdmin ? 'Administrateur' : 'Utilisateur'; bdg.className = 'dd-badge ' + (isAdmin ? 'admin' : 'user'); }
+}
+
+// ═══════════════════════════════════════════════
+// ADMIN FULL PAGE
+// ═══════════════════════════════════════════════
+var activityLog = [];
+try { activityLog = JSON.parse(localStorage.getItem('sf_activity') || '[]'); } catch(e) {}
+
+function logActivity(msg, color) {
+  activityLog.unshift({ msg: msg, t: Date.now(), color: color || 'var(--t3)' });
+  if (activityLog.length > 100) activityLog = activityLog.slice(0, 100);
+  localStorage.setItem('sf_activity', JSON.stringify(activityLog));
+}
+
+function clearActivityLog() {
+  activityLog = []; localStorage.removeItem('sf_activity');
+  renderActivityLog(); toast('Journal effacé');
+}
+
+function renderActivityLog() {
+  var el = ge('admp-activity-list'); if (!el) return;
+  if (!activityLog.length) { el.innerHTML = '<div style="color:var(--t3);font-size:13px;padding:8px 0">Aucune activité.</div>'; return; }
+  el.innerHTML = activityLog.slice(0, 50).map(function(a) {
+    var d = new Date(a.t);
+    var ts = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+    return '<div class="activity-item">'
+      + '<div class="activity-dot" style="background:' + (a.color||'var(--t3)') + '"></div>'
+      + '<div class="activity-text">' + a.msg + '</div>'
+      + '<div class="activity-time">' + ts + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function initAdminPage() {
+  if (!isAdmin) { go('home'); toast('Accès refusé', 'err'); return; }
+  if (ge('anb-cat-count')) ge('anb-cat-count').textContent = CAT.length;
+  if (ge('anb-mg-count')) ge('anb-mg-count').textContent = MANGA_CAT.length;
+  showAdminPage('dashboard', document.querySelector('#page-admin .admin-nav-btn'));
+}
+
+function showAdminPage(sec, btn) {
+  document.querySelectorAll('#page-admin .admin-page').forEach(function(p) { p.classList.remove('on'); });
+  document.querySelectorAll('#page-admin .admin-nav-btn').forEach(function(b) { b.classList.remove('on'); });
+  var el = ge('admp-' + sec); if (el) el.classList.add('on');
+  if (btn) btn.classList.add('on');
+  if (sec === 'dashboard') refreshAdminDashboard();
+  if (sec === 'catalogue') renderAdmCat();
+  if (sec === 'mangas')    renderAdmMg();
+  if (sec === 'activity')  renderActivityLog();
+}
+
+function refreshAdminDashboard() {
+  if (ge('dash-cat')) ge('dash-cat').textContent = CAT.length;
+  if (ge('dash-manga')) ge('dash-manga').textContent = MANGA_CAT.length;
+  if (ge('anb-cat-count')) ge('anb-cat-count').textContent = CAT.length;
+  if (ge('anb-mg-count')) ge('anb-mg-count').textContent = MANGA_CAT.length;
+  if (sb && user) {
+    sb.from('profiles').select('count', { count:'exact', head:true }).then(function(r) { if (ge('dash-users') && r.count !== null) ge('dash-users').textContent = r.count; });
+    sb.from('user_lists').select('count', { count:'exact', head:true }).then(function(r) { if (ge('dash-lists') && r.count !== null) ge('dash-lists').textContent = r.count; });
+  }
+  // Recent
+  var rl = ge('dash-recent'); if (rl) {
+    rl.innerHTML = CAT.slice(0, 8).map(function(c) {
+      var cls = c.type === 'anime' ? 'anime' : c.type === 'series' ? 'series' : 'movie';
+      var lbl = c.type === 'anime' ? 'Anime' : c.type === 'series' ? 'Série' : 'Film';
+      return '<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:var(--border)">'
+        + '<div style="width:26px;height:38px;border-radius:4px;flex-shrink:0;background:' + c.g1 + ';' + (c.posterUrl ? 'background-image:url('+c.posterUrl+');background-size:cover;background-position:center' : '') + '"></div>'
+        + '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + c.title + '</div>'
+        + '<div style="font-size:11px;color:var(--t3)">' + c.year + ' · <span class="tbadge ' + cls + '" style="font-size:9.5px;padding:1px 5px">' + lbl + '</span></div></div>'
+        + '<div class="cat-btn edit" onclick="openEdit(' + c.id + ')"><svg class="i"><use href="#i-edit"/></svg></div>'
+        + '</div>';
+    }).join('');
+  }
+  // Genres
+  var gEl = ge('dash-genres'); if (gEl) {
+    var gMap = {}; CAT.forEach(function(c) { gMap[c.genre] = (gMap[c.genre]||0)+1; });
+    var tot = CAT.length || 1;
+    gEl.innerHTML = Object.keys(gMap).sort(function(a,b){return gMap[b]-gMap[a];}).slice(0,8).map(function(g) {
+      var pct = Math.round((gMap[g]/tot)*100);
+      return '<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2);font-weight:600">' + glbl(g) + '</span><span style="color:var(--t3)">' + gMap[g] + ' (' + pct + '%)</span></div>'
+        + '<div style="height:3px;background:var(--s3);border-radius:2px"><div style="height:100%;background:var(--red);border-radius:2px;width:' + pct + '%;transition:width .6s var(--ease)"></div></div></div>';
+    }).join('');
+  }
+  // Featured
+  var fEl = ge('dash-featured'); if (fEl) {
+    fEl.innerHTML = featArr.map(function(idx) {
+      var c = CAT[idx]; if (!c) return '';
+      return '<div style="display:flex;align-items:center;gap:8px;background:var(--s2);border:var(--border);border-radius:8px;padding:7px 12px;cursor:pointer;transition:background .15s" onclick="removeFeatured(' + idx + ')">'
+        + '<div style="width:24px;height:18px;border-radius:3px;background:' + c.g1 + ';flex-shrink:0"></div>'
+        + '<span style="font-size:13px;font-weight:600">' + c.title + '</span>'
+        + '<svg class="i" style="width:11px;height:11px;color:var(--t4);margin-left:2px"><use href="#i-x"/></svg>'
+        + '</div>';
+    }).join('');
+    if (!featArr.length) fEl.innerHTML = '<div style="font-size:13px;color:var(--t3)">Aucun titre en vedette. Allez dans Catalogue → ⭐ pour en ajouter.</div>';
+    else fEl.innerHTML += '<div style="font-size:12px;color:var(--t4);margin-top:8px;width:100%">Cliquez pour retirer du hero</div>';
+  }
+}
+
+function renderAdmCat() {
+  var el = ge('adm-cat-tbody'); if (!el) return;
+  var q = (ge('adm-cat-q') ? ge('adm-cat-q').value : '').toLowerCase();
+  var f = ge('adm-cat-type') ? ge('adm-cat-type').value : 'all';
+  var list = CAT.filter(function(c) {
+    return (f === 'all' || c.type === f) && (!q || c.title.toLowerCase().indexOf(q) !== -1 || c.genre.indexOf(q) !== -1);
+  });
+  if (ge('admp-cat-sub')) ge('admp-cat-sub').textContent = list.length + ' titre' + (list.length !== 1 ? 's' : '') + ' · total ' + CAT.length;
+  el.innerHTML = list.map(function(c) {
+    var cls = c.type === 'anime' ? 'anime' : c.type === 'series' ? 'series' : 'movie';
+    var lbl = c.type === 'anime' ? 'Anime' : c.type === 'series' ? 'Série' : 'Film';
+    var isFeat = featArr.some(function(i) { return CAT[i] && CAT[i].id === c.id; });
+    return '<tr>'
+      + '<td><div style="width:28px;height:40px;border-radius:4px;flex-shrink:0;background:' + c.g1 + ';' + (c.posterUrl ? 'background-image:url('+c.posterUrl+');background-size:cover;background-position:center' : '') + '"></div></td>'
+      + '<td style="font-weight:600;color:var(--t1);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + c.title + '</td>'
+      + '<td><span class="tbadge ' + cls + '">' + lbl + '</span></td>'
+      + '<td style="color:var(--t2)">' + glbl(c.genre) + '</td>'
+      + '<td style="color:var(--t3)">' + c.year + '</td>'
+      + '<td style="color:var(--grn);font-weight:700">' + c.match + '%</td>'
+      + '<td>' + (c.videoUrl ? '<span style="color:var(--grn);font-size:12px;font-weight:700">✓</span>' : '<span style="color:var(--t4);font-size:12px">—</span>') + '</td>'
+      + '<td><div class="cat-acts">'
+        + '<div class="cat-btn edit" onclick="openEdit(' + c.id + ')" title="Modifier"><svg class="i"><use href="#i-edit"/></svg></div>'
+        + '<div class="cat-btn feat' + (isFeat ? ' on' : '') + '" onclick="toggleFeatured(' + CAT.indexOf(c) + ',this)" title="' + (isFeat?'Retirer du':'Ajouter au') + ' hero"><svg class="i"><use href="#i-star"/></svg></div>'
+        + '<div class="cat-btn" onclick="openDetail(' + c.id + ')" title="Voir"><svg class="i"><use href="#i-info"/></svg></div>'
+        + '<div class="cat-btn del" onclick="deleteContent(' + c.id + ')" title="Supprimer"><svg class="i"><use href="#i-trash"/></svg></div>'
+      + '</div></td>'
+      + '</tr>';
+  }).join('');
+}
+
+function renderAdmMg() {
+  var el = ge('adm-mg-tbody'); if (!el) return;
+  var q = (ge('adm-mg-q') ? ge('adm-mg-q').value : '').toLowerCase();
+  var list = q ? MANGA_CAT.filter(function(m) { return m.title.toLowerCase().indexOf(q) !== -1 || m.author.toLowerCase().indexOf(q) !== -1 || m.genre.indexOf(q) !== -1; }) : MANGA_CAT;
+  if (ge('admp-mg-sub')) ge('admp-mg-sub').textContent = list.length + ' manga' + (list.length !== 1 ? 's' : '') + ' · total ' + MANGA_CAT.length;
+  el.innerHTML = list.map(function(m) {
+    var sl = m.status === 'completed' ? '<span style="color:var(--grn);font-weight:700">Terminé</span>' : m.status === 'hiatus' ? '<span style="color:#ffd700">Pause</span>' : '<span style="color:var(--red)">En cours</span>';
+    return '<tr>'
+      + '<td style="font-weight:600;color:var(--t1)">' + m.title + '</td>'
+      + '<td style="color:var(--t3);font-size:12px">' + m.author + '</td>'
+      + '<td><span style="font-size:11px;color:var(--t2)">' + glbl(m.genre) + '</span></td>'
+      + '<td style="color:var(--t2)">' + m.chapters + '</td>'
+      + '<td style="font-size:12px">' + sl + '</td>'
+      + '<td><div class="cat-acts">'
+        + '<div class="cat-btn" onclick="openMangaReader(' + m.id + ',0)" title="Lire"><svg class="i"><use href="#i-book"/></svg></div>'
+        + '<div class="cat-btn del" onclick="deleteManga(' + m.id + ')" title="Supprimer"><svg class="i"><use href="#i-trash"/></svg></div>'
+      + '</div></td>'
+      + '</tr>';
+  }).join('');
+}
+
+function toggleFeatured(idx, btn) {
+  var pos = featArr.indexOf(idx);
+  if (pos !== -1) { featArr.splice(pos, 1); if (btn) btn.classList.remove('on'); toast('Retiré du hero'); logActivity('Retiré du hero: ' + (CAT[idx]?CAT[idx].title:'?'), 'var(--t3)'); }
+  else { featArr.push(idx); if (btn) btn.classList.add('on'); toast('⭐ Ajouté au hero'); logActivity('Ajouté au hero: ' + (CAT[idx]?CAT[idx].title:'?'), 'var(--grn)'); }
+  renderHeroDots(); startHeroT();
+}
+function removeFeatured(idx) { var pos = featArr.indexOf(idx); if (pos !== -1) { featArr.splice(pos, 1); renderHeroDots(); startHeroT(); refreshAdminDashboard(); } }
+
+// Edit modal
+var editId = null;
+function openEdit(id) {
+  var c = CAT.find(function(x) { return x.id === id; }); if (!c) return;
+  editId = id;
+  ge('edit-modal-title').textContent = c.title;
+  ge('edit-title').value = c.title || '';
+  ge('edit-type').value = c.type || 'movie';
+  ge('edit-genre').value = c.genre || 'action';
+  ge('edit-year').value = c.year || '';
+  ge('edit-match').value = c.match || '';
+  ge('edit-video').value = c.videoUrl || '';
+  ge('edit-poster').value = c.posterUrl || '';
+  ge('edit-synopsis').value = c.synopsis || '';
+  ge('edit-dir').value = c.dir || '';
+  ge('edit-dur').value = c.dur || '';
+  ge('edit-modal').classList.add('open');
+  document.body.classList.add('no-scroll');
+}
+function closeEditModal() { ge('edit-modal').classList.remove('open'); document.body.classList.remove('no-scroll'); editId = null; }
+function saveEdit() {
+  if (!editId) return;
+  var c = CAT.find(function(x) { return x.id === editId; }); if (!c) return;
+  var prev = c.title;
+  c.title     = ge('edit-title').value.trim() || c.title;
+  c.type      = ge('edit-type').value;
+  c.genre     = ge('edit-genre').value;
+  c.year      = parseInt(ge('edit-year').value) || c.year;
+  c.match     = parseInt(ge('edit-match').value) || c.match;
+  c.videoUrl  = ge('edit-video').value.trim();
+  c.posterUrl = ge('edit-poster').value.trim();
+  c.synopsis  = ge('edit-synopsis').value.trim();
+  c.dir       = ge('edit-dir').value.trim();
+  c.dur       = ge('edit-dur').value.trim();
+  var gr = GRADS[c.genre] || GRADS.action; c.g1 = gr[0]; c.g2 = gr[1];
+  var saved = []; try { saved = JSON.parse(localStorage.getItem('sf_custom') || '[]'); } catch(e) {}
+  var idx = saved.findIndex(function(x) { return x.id === editId; });
+  if (idx !== -1) { saved[idx] = c; } else { saved.unshift(c); }
+  localStorage.setItem('sf_custom', JSON.stringify(saved));
+  logActivity('Modifié: "' + c.title + '"', 'var(--grn)');
+  closeEditModal(); renderAdmCat(); toast('"' + c.title + '" mis à jour ✓');
+}
+
+function clearAddForm() {
+  ['add-title','add-year','add-dur','add-video','add-poster','add-synopsis','add-dir','add-tags','add-match'].forEach(function(id) { var el = ge(id); if (el) el.value = ''; });
+  toast('Formulaire vidé');
+}
+
+async function loadAdminUsers2() {
+  if (!sb || !user) { toast('Supabase requis', 'err'); return; }
+  var el = ge('admp-users-grid'); if (!el) return;
+  el.innerHTML = '<div style="color:var(--t3);font-size:13px;padding:8px 0">Chargement...</div>';
+  var r = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+  if (!r.data || !r.data.length) { el.innerHTML = '<div style="color:var(--t3);font-size:13px;padding:8px 0">Aucun membre.</div>'; return; }
+  el.innerHTML = '<div class="user-grid">' + r.data.map(function(u) {
+    var isAdm = ADMIN_EMAILS.indexOf(u.email || '') !== -1;
+    var date = u.created_at ? new Date(u.created_at).toLocaleDateString('fr-FR') : '—';
+    var init = (u.username || u.email || '?')[0].toUpperCase();
+    return '<div class="user-card">'
+      + '<div class="uc-av">' + (u.avatar_url ? '<img src="'+u.avatar_url+'" style="width:100%;height:100%;object-fit:cover">' : init) + '</div>'
+      + '<div class="uc-info"><div class="uc-name">' + (u.username || 'Inconnu') + '</div>'
+      + '<div class="uc-email">' + (u.email || '—') + '</div>'
+      + '<div style="margin-top:4px;display:flex;align-items:center;gap:6px"><span class="u-role ' + (isAdm?'admin':'user') + '">' + (isAdm?'Admin':'User') + '</span><span style="font-size:10px;color:var(--t4)">' + date + '</span></div></div>'
+      + '<div class="uc-actions">'
+        + '<div class="cat-btn del" onclick="adminBanUser(\'' + u.user_id + '\')" title="Bannir"><svg class="i"><use href="#i-ban"/></svg></div>'
+        + '<div class="cat-btn del" onclick="adminClearUserList(\'' + u.user_id + '\')" title="Vider liste"><svg class="i"><use href="#i-trash"/></svg></div>'
+      + '</div></div>';
+  }).join('') + '</div>';
+}
+
+async function loadAdminLists2() {
+  if (!sb || !user) { toast('Supabase requis', 'err'); return; }
+  var el = ge('admp-lists-view'); if (!el) return; el.innerHTML = '<div style="color:var(--t3);font-size:13px">Chargement...</div>';
+  var r = await sb.from('user_lists').select('*');
+  if (!r.data || !r.data.length) { el.innerHTML = '<div style="color:var(--t3);font-size:13px">Aucune liste.</div>'; return; }
+  var map = {}; r.data.forEach(function(row) { map[row.user_id] = (map[row.user_id]||0)+1; });
+  el.innerHTML = Object.keys(map).map(function(uid) {
+    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:var(--border)">'
+      + '<div style="flex:1;font-size:12px;color:var(--t3)">' + uid.slice(0,16) + '…</div>'
+      + '<span style="font-weight:700;color:var(--red)">' + map[uid] + ' titres</span>'
+      + '<button class="btn-danger" style="padding:4px 10px;font-size:11px" onclick="adminClearUserList(\'' + uid + '\')">Vider</button>'
+      + '</div>';
+  }).join('');
+}
+
+async function loadAdminHistory2() {
+  if (!sb || !user) { toast('Supabase requis', 'err'); return; }
+  var el = ge('admp-hist-view'); if (!el) return; el.innerHTML = '<div style="color:var(--t3);font-size:13px">Chargement...</div>';
+  var r = await sb.from('watch_history').select('*').order('last_watched', { ascending: false }).limit(30);
+  if (!r.data || !r.data.length) { el.innerHTML = '<div style="color:var(--t3);font-size:13px">Aucun historique.</div>'; return; }
+  el.innerHTML = r.data.map(function(h) {
+    var c = CAT.find(function(x) { return x.id === h.content_id; });
+    var pct = h.duration ? Math.round((h.progress/h.duration)*100) : 0;
+    return '<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:var(--border)">'
+      + '<div style="width:26px;height:36px;border-radius:4px;flex-shrink:0;background:' + (c?c.g1:'var(--s2)') + '"></div>'
+      + '<div style="flex:1"><div style="font-size:13px;font-weight:600">' + (c?c.title:'Titre #'+h.content_id) + '</div>'
+      + '<div style="font-size:11px;color:var(--t3)">' + h.user_id.slice(0,12) + '… · ' + pct + '% vu</div></div>'
+      + '</div>';
+  }).join('');
+}
+
+async function adminResetAll() {
+  if (!isAdmin) return;
+  if (!confirm('⚠️ RESET COMPLET — supprimer tout ? Action irréversible !')) return;
+  await adminClearAllHistory();
+  await adminClearAllLists();
+  adminClearCustomCat();
+  adminClearCustomMangas();
+  logActivity('RESET COMPLET effectué', 'var(--red)');
+  toast('Reset complet effectué');
 }
 
 function updateAuthUI(demo) {
@@ -1754,16 +3042,23 @@ function updateAuthUI(demo) {
 // ═══════════════════════════════════════════════
 // AVATAR / PROFILE PICTURE
 // ═══════════════════════════════════════════════
-function triggerAvatarUpload() { ge('avatar-file-input').click(); }
+function triggerAvatarUpload() {
+  if (!user) { openAuth(); toast('Connectez-vous pour changer votre photo', 'info'); return; }
+  ge('avatar-file-input').click();
+}
 
 function handleAvatarUpload(event) {
   var file = event.target.files[0];
   if (!file) return;
   var reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = async function(e) {
     var b64 = e.target.result;
     setAvatarUrl(b64);
     localStorage.setItem('sf_avatar', b64);
+    // Sauvegarde sur le compte Supabase si connecté
+    if (sb && user) {
+      await sb.from('profiles').upsert({ user_id: user.id, avatar_url: b64 }, { onConflict: 'user_id' });
+    }
     toast('Photo de profil mise à jour !');
   };
   reader.readAsDataURL(file);
@@ -1809,6 +3104,8 @@ async function loadHome() {
   rRow('new2024', CAT.filter(function(c) { return c.year >= 2024; }).slice(0, 10));
   // Animes populaires
   rRow('anime', CAT.filter(function(c) { return c.type === 'anime'; }));
+  // Manga home row — manga cards
+  rMangaRow();
   // Action & Thriller
   rRow('action', CAT.filter(function(c) { return ['action','thriller'].indexOf(c.genre) !== -1; }));
   // Sci-Fi & Fantasy
@@ -1817,6 +3114,23 @@ async function loadHome() {
   rRow('rec', CAT.filter(function(c, i) { return i > 10; }));
   // Init touch on newly rendered rows
   initRowTouch();
+}
+
+function rMangaRow() {
+  var el = ge('rc-manga-home'); if (!el) return;
+  el.innerHTML = MANGA_CAT.slice(0, 16).map(function(m) {
+    var statusColor = m.status === 'completed' ? 'rgba(62,207,106,.85)' : m.status === 'hiatus' ? 'rgba(255,200,0,.85)' : 'rgba(212,13,21,.9)';
+    var statusLabel = m.status === 'completed' ? 'Terminé' : m.status === 'hiatus' ? 'Pause' : 'En cours';
+    return '<div class="card" style="cursor:pointer" onclick="openMangaReader('+m.id+',0)">'
+      + '<div class="c-art" style="background:linear-gradient(160deg,#0a0a1a,#1a1a3a);aspect-ratio:2/3">'
+        + (m.cover ? '<img src="'+m.cover+'" alt="" loading="lazy" onload="this.classList.add(\'loaded\')" onerror="this.style.display=\'none\'">' : '')
+        + '<div class="c-score" style="background:'+statusColor+'">'+m.chapters+'ch</div>'
+        + '<div class="c-type-badge anime">Manga</div>'
+      + '</div>'
+      + '<div class="c-foot"><div class="c-foot-title">'+m.title+'</div><div class="c-foot-meta"><span>'+m.author.split(' ').pop()+'</span><div class="c-dot"></div><span>'+glbl(m.genre)+'</span></div></div>'
+    + '</div>';
+  }).join('');
+  if (window._addRowTouch) window._addRowTouch(el);
 }
 
 function initRowTouch() {
@@ -1905,6 +3219,7 @@ function sRow(id, dir) { var el = ge('rc-' + id); if (el) el.scrollBy({ left: di
 // LIST
 // ═══════════════════════════════════════════════
 async function toggleList(id) {
+  if (!user) { openAuth(); toast('Connectez-vous pour gérer votre liste', 'info'); return; }
   await dbList(id);
   var has = myList.some(function(x) { return x.id === id; });
   var c = CAT.find(function(x) { return x.id === id; });
@@ -1924,7 +3239,7 @@ function go(page) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.toggle('active', a.dataset.page === page); });
   // Sync mobile nav
-  ['home','movies','animes','mylist','series'].forEach(function(k) {
+  ['home','movies','animes','mylist','series','mangas'].forEach(function(k) {
     var b = ge('mnb-' + k); if (b) b.classList.toggle('active', k === page);
   });
   // Haptic feedback on mobile nav
@@ -1936,9 +3251,11 @@ function go(page) {
   if (page === 'movies')   renderMovies();
   if (page === 'series')   renderSeries();
   if (page === 'animes')   renderAnimes();
+  if (page === 'mangas')   renderMangas();
   if (page === 'mylist')   renderMyList();
   if (page === 'continue') renderContinuePage();
   if (page === 'settings') initSettings();
+  if (page === 'admin')    initAdminPage();
 }
 
 function mkFilter(items, id, attrName, active, fnName) {
@@ -1988,8 +3305,170 @@ function renderContinuePage() {
   ge('grid-continue').innerHTML = items.map(function(c) { return mkCard(c, true, true); }).join('');
 }
 
+// ═══════════════════════════════════════════════
+// MANGAS
+// ═══════════════════════════════════════════════
+var mgFilter = 'all';
+function renderMangas() {
+  var g = ge('grid-mangas');
+  ge('mg-sub').textContent = MANGA_CAT.length + ' mangas';
+  var genres = ['all'].concat(Array.from(new Set(MANGA_CAT.map(function(m) { return m.genre; }))));
+  ge('gb-mangas').innerHTML = genres.map(function(gn) {
+    return '<button class="g-pill' + (gn === mgFilter ? ' on' : '') + '" onclick="fMangas(\'' + gn + '\')">' + glbl(gn) + '</button>';
+  }).join('');
+  var list = mgFilter === 'all' ? MANGA_CAT : MANGA_CAT.filter(function(m) { return m.genre === mgFilter; });
+  g.innerHTML = list.map(function(m, i) {
+    var statusLabel = m.status === 'completed' ? 'Terminé' : m.status === 'hiatus' ? 'Pause' : 'En cours';
+    var statusColor = m.status === 'completed' ? 'rgba(62,207,106,.85)' : m.status === 'hiatus' ? 'rgba(255,200,0,.85)' : 'rgba(212,13,21,.9)';
+    return '<div class="manga-card" style="animation-delay:' + (i * 0.04) + 's" onclick="openMangaDetail(' + m.id + ')">'
+      + '<div class="manga-art">'
+        + (m.cover ? '<img src="' + m.cover + '" alt="' + m.title + '" loading="lazy" onerror="this.style.display=\'none\'">' : '<div class="manga-art-fallback">M</div>')
+        + '<div class="manga-badge" style="background:' + statusColor + '">' + statusLabel + '</div>'
+      + '</div>'
+      + '<div class="manga-foot">'
+        + '<div class="manga-foot-title">' + m.title + '</div>'
+        + '<div class="manga-foot-meta"><span class="manga-chapters">' + m.chapters + ' ch.</span><span>' + m.author.split(' ').pop() + '</span></div>'
+      + '</div>'
+    + '</div>';
+  }).join('');
+}
+function fMangas(g) { mgFilter = g; renderMangas(); }
+
+function openMangaDetail(id) {
+  var m = MANGA_CAT.find(function(x) { return x.id === id; }); if (!m) return;
+  // Open manga reader directly at chapter 1
+  openMangaReader(id, 0);
+}
+
+// ═══════════════════════════════════════════════
+// MANGA READER
+// ═══════════════════════════════════════════════
+var mrManga = null, mrChapIdx = 0, mrPageIdx = 0, mrUiVisible = true, mrUiTimer = null, mrZoomed = false;
+
+function openMangaReader(mangaId, chapIdx) {
+  var m = MANGA_CAT.find(function(x) { return x.id === mangaId; }); if (!m) return;
+  mrManga = m; mrChapIdx = chapIdx || 0; mrPageIdx = 0; mrZoomed = false;
+  ge('mr-title').textContent = m.title;
+  ge('manga-reader').classList.add('open');
+  document.body.classList.add('no-scroll');
+  mrRenderChapBtns();
+  mrRenderPage();
+  mrShowUi();
+  mrAddTouch();
+}
+
+function closeMangaReader() {
+  ge('manga-reader').classList.remove('open');
+  document.body.classList.remove('no-scroll');
+  mrManga = null;
+}
+
+function mrRenderChapBtns() {
+  if (!mrManga) return;
+  ge('mr-chaps').innerHTML = mrManga.pages.map(function(ch, i) {
+    return '<button class="mr-chap-btn' + (i === mrChapIdx ? ' on' : '') + '" onclick="mrGoChap(' + i + ')">Ch. ' + ch.n + '</button>';
+  }).join('');
+}
+
+function mrGoChap(idx) {
+  mrChapIdx = idx; mrPageIdx = 0; mrZoomed = false;
+  mrRenderChapBtns(); mrRenderPage();
+}
+
+function mrRenderPage() {
+  if (!mrManga) return;
+  var chap = mrManga.pages[mrChapIdx];
+  var pg = chap ? chap.pages[mrPageIdx] : '';
+  var total = chap ? chap.pages.length : 1;
+  ge('mr-info').textContent = (mrPageIdx + 1) + ' / ' + total;
+  ge('mr-pg-num').textContent = (mrPageIdx + 1) + ' / ' + total;
+  ge('mr-fill').style.width = (((mrPageIdx + 1) / total) * 100) + '%';
+  var img = ge('mr-img');
+  var fallback = ge('mr-fallback');
+  img.classList.remove('zoom'); mrZoomed = false;
+  if (pg) {
+    img.src = pg; img.style.display = 'block'; fallback.style.display = 'none';
+  } else {
+    // No URL — show placeholder with chapter/page info
+    img.style.display = 'none';
+    fallback.style.display = 'flex';
+    fallback.innerHTML = '<svg class="i" style="width:60px;height:60px;opacity:.15"><use href="#i-book"/></svg>'
+      + '<div style="font-size:18px;font-weight:700;color:var(--t2)">Ch. ' + chap.n + ' · Page ' + (mrPageIdx + 1) + '</div>'
+      + '<div style="font-size:13px;color:var(--t3);margin-top:4px">' + mrManga.title + '</div>'
+      + '<div style="font-size:12px;color:var(--t4);margin-top:16px;max-width:260px;text-align:center">Ajoutez les URLs des pages via Admin → Mangas</div>';
+  }
+  // Scroll chapters nav
+  var btn = ge('mr-chaps') ? ge('mr-chaps').querySelectorAll('.mr-chap-btn')[mrChapIdx] : null;
+  if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+function mrNext() {
+  var chap = mrManga ? mrManga.pages[mrChapIdx] : null; if (!chap) return;
+  if (mrPageIdx < chap.pages.length - 1) { mrPageIdx++; mrRenderPage(); }
+  else if (mrChapIdx < mrManga.pages.length - 1) { mrGoChap(mrChapIdx + 1); toast('Chapitre ' + (mrManga.pages[mrChapIdx].n), 'info'); }
+  else { toast('Fin du manga !', 'info'); }
+  mrShowUi();
+}
+function mrPrev() {
+  if (mrPageIdx > 0) { mrPageIdx--; mrRenderPage(); }
+  else if (mrChapIdx > 0) { mrChapIdx--; mrPageIdx = mrManga.pages[mrChapIdx].pages.length - 1; mrRenderChapBtns(); mrRenderPage(); }
+  mrShowUi();
+}
+function mrZoom() {
+  var img = ge('mr-img');
+  mrZoomed = !mrZoomed;
+  img.classList.toggle('zoom', mrZoomed);
+}
+function mrSeek(e) {
+  var chap = mrManga ? mrManga.pages[mrChapIdx] : null; if (!chap) return;
+  var r = ge('mr-track') ? ge('mr-track').getBoundingClientRect() : null;
+  if (!r) return;
+  var pct = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+  mrPageIdx = Math.floor(pct * chap.pages.length);
+  mrRenderPage();
+}
+function toggleMrUi() { mrUiVisible ? mrHideUi() : mrShowUi(); }
+function mrShowUi() {
+  mrUiVisible = true;
+  var t = ge('mr-top'), b = ge('mr-bottom');
+  if (t) t.classList.remove('hidden');
+  if (b) b.classList.remove('hidden');
+  clearTimeout(mrUiTimer);
+  mrUiTimer = setTimeout(mrHideUi, 3500);
+}
+function mrHideUi() {
+  mrUiVisible = false;
+  var t = ge('mr-top'), b = ge('mr-bottom');
+  if (t) t.classList.add('hidden');
+  if (b) b.classList.add('hidden');
+}
+
+var _mrTouchX = 0, _mrTouchY = 0;
+function mrAddTouch() {
+  var el = ge('mr-pages'); if (!el || el._mrTouch) return;
+  el._mrTouch = true;
+  el.addEventListener('touchstart', function(e) { _mrTouchX = e.touches[0].clientX; _mrTouchY = e.touches[0].clientY; }, { passive: true });
+  el.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - _mrTouchX;
+    var dy = e.changedTouches[0].clientY - _mrTouchY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) mrNext(); else mrPrev();
+    }
+  }, { passive: true });
+}
+
+// ═══════════════════════════════════════════════
+// PLAYER — MOBILE GESTURES
+// ═══════════════════════════════════════════════
+function seekBack10() { pProg = Math.max(0, pProg - (10/6480)); ge('pfill').style.width = (pProg*100)+'%'; updTime(); flashDt('l'); }
+function seekFwd10()  { pProg = Math.min(1, pProg + (10/6480)); ge('pfill').style.width = (pProg*100)+'%'; updTime(); flashDt('r'); }
+function flashDt(side) {
+  var el = ge('pdt-' + side); if (!el) return;
+  el.classList.add('flash'); setTimeout(function() { el.classList.remove('flash'); }, 500);
+}
+
 function glbl(g) {
-  var m = { all:'Tous', thriller:'Thriller', action:'Action', scifi:'Sci-Fi', drama:'Drame', horror:'Horreur', fantasy:'Fantasy', comedy:'Comédie', shonen:'Shonen', seinen:'Seinen', isekai:'Isekai' };
+  var m = { all:'Tous', thriller:'Thriller', action:'Action', scifi:'Sci-Fi', drama:'Drame', horror:'Horreur', fantasy:'Fantasy', comedy:'Comédie', shonen:'Shonen', seinen:'Seinen', isekai:'Isekai', shojo:'Shojo', romance:'Romance' };
   return m[g] || (g.charAt(0).toUpperCase() + g.slice(1));
 }
 
@@ -2144,34 +3623,183 @@ function pad(n) { return String(n).padStart(2, '0'); }
 // ═══════════════════════════════════════════════
 var recentSearches = [];
 try { recentSearches = JSON.parse(localStorage.getItem('sf_searches') || '[]'); } catch(e) {}
+var searchCat = 'all'; // current category filter
+
+var SEARCH_CATS = [
+  { id:'all', label:'Tous' },
+  { id:'movie', label:'Films' },
+  { id:'series', label:'Séries' },
+  { id:'anime', label:'Animes' },
+  { id:'manga', label:'Mangas' },
+];
 
 function openSearch() {
   ge('search-ov').classList.add('open');
   document.body.classList.add('no-scroll');
   setTimeout(function() { ge('si').focus(); }, 80);
+  searchCat = 'all';
   doSearch('');
 }
+
 function closeSearch() {
   ge('search-ov').classList.remove('open');
   document.body.classList.remove('no-scroll');
   ge('si').value = '';
+  ge('search-clear-btn').classList.remove('vis');
 }
+
+function clearSearch() {
+  ge('si').value = '';
+  ge('search-clear-btn').classList.remove('vis');
+  ge('si').focus();
+  doSearch('');
+}
+
+function setSCat(cat) {
+  searchCat = cat;
+  doSearch(ge('si').value);
+}
+
 function doSearch(q) {
   var t = q.trim().toLowerCase();
+  var body = ge('search-body');
+  var clearBtn = ge('search-clear-btn');
+  if (clearBtn) clearBtn.classList.toggle('vis', t.length > 0);
+
+  // Save recent search
   if (t.length > 2) {
-    // Save recent
-    recentSearches = [q].concat(recentSearches.filter(function(s) { return s.toLowerCase() !== t; })).slice(0, 6);
+    recentSearches = [q].concat(recentSearches.filter(function(s) { return s.toLowerCase() !== t; })).slice(0, 8);
     localStorage.setItem('sf_searches', JSON.stringify(recentSearches));
   }
-  var r = t ? CAT.filter(function(c) {
-    return c.title.toLowerCase().indexOf(t) !== -1 || c.genre.indexOf(t) !== -1
-      || c.tags.some(function(x) { return x.toLowerCase().indexOf(t) !== -1; })
-      || (c.dir && c.dir.toLowerCase().indexOf(t) !== -1);
-  }) : CAT.slice(0, 12);
-  ge('slbl').textContent = t ? r.length + ' résultat' + (r.length !== 1 ? 's' : '') + ' pour "' + q + '"' : 'Tendances';
-  ge('sgrid').innerHTML = r.length
-    ? r.map(function(c) { return mkCard(c, false, false); }).join('')
-    : '<div style="color:var(--t3);font-size:14px;grid-column:1/-1;padding:32px 0;text-align:center"><svg class="i" style="width:40px;height:40px;opacity:.2;display:block;margin:0 auto 12px"><use href="#i-search"/></svg>Aucun résultat pour "' + q + '"</div>';
+
+  // Build category pills
+  var pillsHtml = '<div class="search-cats">' + SEARCH_CATS.map(function(c) {
+    return '<button class="scat-btn' + (c.id === searchCat ? ' on' : '') + '" onclick="setSCat(\'' + c.id + '\')">' + c.label + '</button>';
+  }).join('') + '</div>';
+
+  // Wrap everything
+  function wrap(content) { body.innerHTML = '<div class="search-body-inner">' + content + '</div>'; }
+
+  if (!t) {
+    // Top trending as card grid
+    var topItems = CAT.slice(0, 12);
+    var topHtml = '<div class="search-sec-title">🔥 Tendances</div>'
+      + '<div class="search-results-grid">' + topItems.map(function(c) { return mkCard(c, false, false); }).join('') + '</div>';
+
+    // Rich category browse cards
+    var genresMap = [
+      { label:'Action',   emoji:'🔥', grad:'linear-gradient(135deg,#5a1500 0%,#c83000 100%)', type:'movie', genre:'action' },
+      { label:'Sci-Fi',   emoji:'🌌', grad:'linear-gradient(135deg,#001438 0%,#0060c8 100%)', type:'movie', genre:'scifi' },
+      { label:'Fantasy',  emoji:'⚔️', grad:'linear-gradient(135deg,#1a0040 0%,#7020c0 100%)', type:'movie', genre:'fantasy' },
+      { label:'Horreur',  emoji:'👁️', grad:'linear-gradient(135deg,#001a00 0%,#204020 100%)', type:'movie', genre:'horror' },
+      { label:'Thriller', emoji:'🎭', grad:'linear-gradient(135deg,#200008 0%,#801020 100%)', type:'movie', genre:'thriller' },
+      { label:'Drame',    emoji:'💧', grad:'linear-gradient(135deg,#001828 0%,#0050a0 100%)', type:'movie', genre:'drama' },
+      { label:'Comédie',  emoji:'😂', grad:'linear-gradient(135deg,#001a08 0%,#208040 100%)', type:'movie', genre:'comedy' },
+      { label:'Animes',   emoji:'🎌', grad:'linear-gradient(135deg,#280010 0%,#c01060 100%)', type:'anime', genre:'all' },
+      { label:'Shonen',   emoji:'💥', grad:'linear-gradient(135deg,#2a0800 0%,#d04000 100%)', type:'anime', genre:'shonen' },
+      { label:'Seinen',   emoji:'🗡️', grad:'linear-gradient(135deg,#0a0a0a 0%,#383838 100%)', type:'anime', genre:'seinen' },
+      { label:'Isekai',   emoji:'🌀', grad:'linear-gradient(135deg,#100030 0%,#6030d0 100%)', type:'anime', genre:'isekai' },
+      { label:'Scans',    emoji:'📚', grad:'linear-gradient(135deg,#001028 0%,#204080 100%)', type:'manga', genre:null },
+      { label:'Films',    emoji:'🎬', grad:'linear-gradient(135deg,#180000 0%,#601010 100%)', type:'movie', genre:'all' },
+      { label:'Séries',   emoji:'📺', grad:'linear-gradient(135deg,#0a1020 0%,#2040a0 100%)', type:'series', genre:'all' },
+    ];
+
+    var browseHtml = '<div class="search-sec-title" style="margin-top:32px">Parcourir les catégories</div>'
+      + '<div class="search-browse-grid">'
+      + genresMap.map(function(g) {
+        var onclick;
+        if (g.type === 'manga') {
+          onclick = 'closeSearch();go(\'mangas\')';
+        } else if (g.type === 'anime') {
+          onclick = g.genre === 'all'
+            ? 'closeSearch();go(\'animes\')'
+            : 'gFilter.animes=\'' + g.genre + '\';closeSearch();go(\'animes\')';
+        } else if (g.type === 'series') {
+          onclick = 'closeSearch();go(\'series\')';
+        } else {
+          onclick = g.genre === 'all'
+            ? 'closeSearch();go(\'movies\')'
+            : 'gFilter.movies=\'' + g.genre + '\';closeSearch();go(\'movies\')';
+        }
+        return '<div class="search-browse-card" onclick="' + onclick + '">'
+          + '<div class="sbc-bg" style="background:' + g.grad + '"></div>'
+          + '<div class="sbc-overlay"></div>'
+          + '<div class="sbc-emoji">' + g.emoji + '</div>'
+          + '<div class="sbc-label">' + g.label + '</div>'
+          + '</div>';
+      }).join('') + '</div>';
+
+    body.innerHTML = '<div class="search-body-inner">' + pillsHtml + topHtml + browseHtml + '</div>';
+    return;
+  }
+
+  // Search results
+  var catResults = [];
+  if (searchCat !== 'manga') {
+    var typeFilter = searchCat === 'all' ? null : searchCat;
+    catResults = CAT.filter(function(c) {
+      var matchType = !typeFilter || c.type === typeFilter;
+      var matchQ = c.title.toLowerCase().indexOf(t) !== -1
+        || c.genre.indexOf(t) !== -1
+        || c.tags.some(function(x) { return x.toLowerCase().indexOf(t) !== -1; })
+        || (c.dir && c.dir.toLowerCase().indexOf(t) !== -1);
+      return matchType && matchQ;
+    });
+  }
+  var mangaResults = (searchCat === 'all' || searchCat === 'manga') ? MANGA_CAT.filter(function(m) {
+    return m.title.toLowerCase().indexOf(t) !== -1
+      || m.genre.indexOf(t) !== -1
+      || m.author.toLowerCase().indexOf(t) !== -1;
+  }) : [];
+
+  var totalCount = catResults.length + mangaResults.length;
+  var countLabel = totalCount + ' résultat' + (totalCount !== 1 ? 's' : '') + ' pour "' + q + '"';
+
+  var resHtml = pillsHtml
+    + '<div class="search-sec-title">' + countLabel + '</div>';
+
+  if (totalCount === 0) {
+    resHtml += '<div class="search-empty">'
+      + '<svg class="i"><use href="#i-search"/></svg>'
+      + '<div class="search-empty-title">Aucun résultat</div>'
+      + '<div class="search-empty-sub">Essayez un autre titre, genre ou studio</div>'
+      + '</div>';
+  } else {
+    if (catResults.length > 0) {
+      resHtml += '<div class="search-results-grid">' + catResults.map(function(c) { return mkCard(c, false, false); }).join('') + '</div>';
+    }
+    if (mangaResults.length > 0) {
+      if (catResults.length > 0) resHtml += '<div class="search-sec-title" style="margin-top:24px">Mangas</div>';
+      resHtml += '<div class="manga-grid" style="padding:0;margin-bottom:0">' + mangaResults.map(function(m, i) {
+        var statusColor = m.status === 'completed' ? 'rgba(62,207,106,.85)' : m.status === 'hiatus' ? 'rgba(255,200,0,.85)' : 'rgba(212,13,21,.9)';
+        var statusLabel = m.status === 'completed' ? 'Terminé' : m.status === 'hiatus' ? 'Pause' : 'En cours';
+        return '<div class="manga-card" onclick="openMangaReader('+m.id+',0)">'
+          + '<div class="manga-art">'
+            + (m.cover ? '<img src="'+m.cover+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '')
+            + '<div class="manga-badge" style="background:'+statusColor+'">'+statusLabel+'</div>'
+          + '</div>'
+          + '<div class="manga-foot"><div class="manga-foot-title">'+m.title+'</div>'
+          + '<div class="manga-foot-meta"><span class="manga-chapters">'+m.chapters+' ch.</span></div></div>'
+        + '</div>';
+      }).join('') + '</div>';
+    }
+  }
+
+  body.innerHTML = '<div class="search-body-inner">' + resHtml + '</div>';
+  if (window._addRowTouch) document.querySelectorAll('.row-cards').forEach(window._addRowTouch);
+}
+
+function setSCatAndGo(genre) {
+  // Route to right page based on genre type
+  var animeGenres = ['shonen','seinen','isekai'];
+  var isAnime = animeGenres.indexOf(genre) !== -1;
+  if (isAnime) {
+    gFilter.animes = genre;
+    closeSearch(); go('animes');
+  } else {
+    gFilter.movies = genre; gFilter.series = genre;
+    closeSearch(); go('movies');
+  }
 }
 
 // ═══════════════════════════════════════════════
@@ -2209,6 +3837,8 @@ function initSettings() {
   var avImg = ge('set-avatar-img');
   if (avImg && avatarUrl) { avImg.src = avatarUrl; avImg.onload = function() { avImg.classList.add('loaded'); }; }
   renderCatTable();
+  renderMangaTable();
+  renderAdminDashboard();
   renderStats();
 }
 
@@ -2266,7 +3896,9 @@ async function saveProfile() {
   var name = ge('set-username') ? ge('set-username').value.trim() : '';
   if (!name) { toast("Entrez un nom d'utilisateur"); return; }
   if (sb && user) {
-    var r = await sb.from('profiles').upsert({ user_id: user.id, username: name });
+    var upsertData = { user_id: user.id, username: name };
+    if (avatarUrl) upsertData.avatar_url = avatarUrl;
+    var r = await sb.from('profiles').upsert(upsertData, { onConflict: 'user_id' });
     if (r.error) { toast('Erreur: ' + r.error.message); return; }
     if (profile) profile.username = name;
   }
@@ -2277,6 +3909,128 @@ async function saveProfile() {
 }
 
 // ── APPEARANCE ──
+function setTheme(t, btn) {
+  var themes = {
+    dark:   { bg:'#070707', s1:'#0e0e0e', s2:'#161616', s3:'#1e1e1e', s4:'#282828' },
+    amoled: { bg:'#000000', s1:'#080808', s2:'#101010', s3:'#181818', s4:'#222222' },
+    dim:    { bg:'#0f1117', s1:'#161b22', s2:'#1e2530', s3:'#262d38', s4:'#303844' }
+  };
+  var th = themes[t] || themes.dark;
+  Object.keys(th).forEach(function(k) { document.documentElement.style.setProperty('--'+k, th[k]); });
+  document.querySelectorAll('.q-btn').forEach(function(b) {
+    if (b.id && b.id.startsWith('theme-')) b.classList.remove('on');
+  });
+  if (btn) btn.classList.add('on');
+  localStorage.setItem('sf_theme', t);
+  toast('Thème appliqué');
+}
+
+function setFontSize(sz, btn) {
+  document.documentElement.style.fontSize = sz;
+  document.querySelectorAll('.q-btn').forEach(function(b) { if (['13px','15px','17px'].includes(b.getAttribute('onclick')?.match(/'([^']+)'/)?.[1])) b.classList.remove('on'); });
+  if (btn) { document.querySelectorAll('.q-btn').forEach(function(b) { if (b.onclick && b.onclick.toString().includes(sz)) b.classList.remove('on'); }); btn.classList.add('on'); }
+  localStorage.setItem('sf_fontsize', sz);
+  toast('Taille appliquée');
+}
+
+function toggleHeroAuto(v) {
+  if (!v) clearInterval(heroT);
+  else startHeroT();
+  localStorage.setItem('sf_hero_auto', v ? '1' : '0');
+}
+
+function toggleCompact(v) {
+  document.documentElement.style.setProperty('--density', v ? '0.82' : '1');
+  if (v) {
+    document.documentElement.style.setProperty('--card-radius', '6px');
+  }
+  localStorage.setItem('sf_compact', v ? '1' : '0');
+}
+
+function toggleContrast(v) {
+  if (v) {
+    document.documentElement.style.setProperty('--t1', '#ffffff');
+    document.documentElement.style.setProperty('--t2', '#dddddd');
+    document.documentElement.style.setProperty('--t3', '#aaaaaa');
+  } else {
+    document.documentElement.style.setProperty('--t1', '#efefef');
+    document.documentElement.style.setProperty('--t2', '#b4b4b4');
+    document.documentElement.style.setProperty('--t3', '#606060');
+  }
+  localStorage.setItem('sf_contrast', v ? '1' : '0');
+}
+
+function toggleDyslexic(v) {
+  if (v) {
+    document.documentElement.style.setProperty('--font-body', '"OpenDyslexic", "Comic Sans MS", cursive');
+  } else {
+    var saved = localStorage.getItem('sf_font') || 'DM Sans';
+    document.documentElement.style.setProperty('--font-body', saved + ', sans-serif');
+  }
+  localStorage.setItem('sf_dyslexic', v ? '1' : '0');
+}
+
+function setSpeed(sp, btn) {
+  document.querySelectorAll('.q-btn').forEach(function(b) { if (b.parentElement && b.parentElement.closest('#set-playback')) b.classList.remove('on'); });
+  if (btn) btn.classList.add('on');
+  localStorage.setItem('sf_speed', sp);
+  toast('Vitesse : ' + sp);
+}
+
+function setMangaDir(v) { localStorage.setItem('sf_manga_dir', v); toast('Direction sauvegardée'); }
+
+function requestPush() {
+  if (!('Notification' in window)) { toast('Non supporté par ce navigateur', 'err'); return; }
+  Notification.requestPermission().then(function(p) {
+    toast(p === 'granted' ? 'Notifications activées !' : 'Permission refusée', p === 'granted' ? 'ok' : 'err');
+  });
+}
+
+async function sendPasswordReset() {
+  if (!sb || !user) { toast('Connectez-vous d\'abord', 'err'); return; }
+  var r = await sb.auth.resetPasswordForEmail(user.email);
+  toast(r.error ? 'Erreur: ' + r.error.message : 'Email envoyé ! Vérifiez votre boîte mail');
+}
+
+function clearMyHistory() {
+  if (!confirm('Effacer tout votre historique ?')) return;
+  watchHist = {};
+  localStorage.removeItem('sf_hist');
+  if (sb && user) sb.from('watch_history').delete().eq('user_id', user.id);
+  toast('Historique effacé');
+}
+
+async function deleteMyAccount() {
+  if (!user) { toast('Non connecté', 'err'); return; }
+  if (!confirm('Supprimer définitivement votre compte ? Action irréversible.')) return;
+  if (!confirm('Dernière confirmation — vraiment supprimer ?')) return;
+  if (sb) {
+    await sb.from('profiles').delete().eq('user_id', user.id);
+    await sb.from('user_lists').delete().eq('user_id', user.id);
+    await sb.from('watch_history').delete().eq('user_id', user.id);
+    await sb.auth.signOut();
+  }
+  myList = []; watchHist = {}; user = null; profile = null;
+  updateAuthUI(); go('home'); toast('Compte supprimé');
+}
+
+function exportData(fmt) {
+  var data = { list: myList.map(function(c) { return { id: c.id, title: c.title, type: c.type }; }), history: watchHist };
+  var str, mime, ext;
+  if (fmt === 'json') {
+    str = JSON.stringify(data, null, 2); mime = 'application/json'; ext = 'json';
+  } else {
+    var rows = [['id','title','type','progress']];
+    myList.forEach(function(c) { rows.push([c.id, c.title, c.type, watchHist[c.id] ? Math.round((watchHist[c.id].p/watchHist[c.id].d)*100)+'%' : '0%']); });
+    str = rows.map(function(r) { return r.join(','); }).join('\n'); mime = 'text/csv'; ext = 'csv';
+  }
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([str], { type: mime }));
+  a.download = 'suflix-data.' + ext;
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('Données exportées en ' + fmt.toUpperCase());
+}
+
 function setAccent(c1, c2, el) {
   document.documentElement.style.setProperty('--red', c1);
   document.documentElement.style.setProperty('--red2', c2);
@@ -2366,7 +4120,7 @@ function addContent() {
   var saved = []; try { saved = JSON.parse(localStorage.getItem('sf_custom') || '[]'); } catch(e) {}
   saved.unshift(nc); localStorage.setItem('sf_custom', JSON.stringify(saved));
   ['add-title','add-year','add-dur','add-video','add-poster','add-synopsis','add-dir','add-tags','add-match'].forEach(function(id) { var el = ge(id); if (el) el.value = ''; });
-  renderCatTable(); toast('"' + title + '" ajouté !');
+  renderCatTable(); renderAdmCat(); logActivity('Ajouté: "' + title + '" (' + type + ')', 'var(--grn)'); toast('"' + title + '" ajouté !');
 }
 
 function deleteContent(id) {
@@ -2374,29 +4128,253 @@ function deleteContent(id) {
   CAT.splice(CAT.indexOf(c), 1);
   var saved = []; try { saved = JSON.parse(localStorage.getItem('sf_custom') || '[]'); } catch(e){}
   localStorage.setItem('sf_custom', JSON.stringify(saved.filter(function(x) { return x.id !== id; })));
-  renderCatTable(); toast('"' + c.title + '" supprimé');
+  renderCatTable(); renderAdmCat(); logActivity('Supprimé: "' + c.title + '"', 'var(--red)'); toast('"' + c.title + '" supprimé');
 }
 
 function renderCatTable() {
   if (!ge('cat-tbody')) return;
   var customIds = []; try { customIds = JSON.parse(localStorage.getItem('sf_custom') || '[]').map(function(x) { return x.id; }); } catch(e) {}
+  var q = ge('cat-search') ? ge('cat-search').value.toLowerCase().trim() : '';
+  var f = ge('cat-filter') ? ge('cat-filter').value : 'all';
+  var list = CAT.filter(function(c) {
+    var matchType = f === 'all' || c.type === f;
+    var matchQ = !q || c.title.toLowerCase().indexOf(q) !== -1 || c.genre.indexOf(q) !== -1;
+    return matchType && matchQ;
+  });
   if (ge('cat-count')) ge('cat-count').textContent = CAT.length;
-  ge('cat-tbody').innerHTML = CAT.map(function(c) {
+  ge('cat-tbody').innerHTML = list.map(function(c) {
     var cls = c.type === 'anime' ? 'anime' : c.type === 'series' ? 'series' : 'movie';
     var lbl = c.type === 'anime' ? 'Anime' : c.type === 'series' ? 'Série' : 'Film';
     var canDel = isAdmin && customIds.indexOf(c.id) !== -1;
     return '<tr>'
-      + '<td style="font-weight:600;color:var(--t1);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + c.title + '</td>'
+      + '<td style="width:40px"><div style="width:32px;height:44px;border-radius:5px;background:' + c.g1 + ';flex-shrink:0;' + (c.posterUrl ? 'background-image:url('+c.posterUrl+');background-size:cover;background-position:center' : '') + '"></div></td>'
+      + '<td style="font-weight:600;color:var(--t1);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + c.title + '</td>'
       + '<td><span class="tbadge ' + cls + '">' + lbl + '</span></td>'
       + '<td style="color:var(--t2)">' + glbl(c.genre) + '</td>'
       + '<td style="color:var(--t3)">' + c.year + '</td>'
-      + '<td>' + (c.videoUrl ? '<span style="font-size:11px;color:var(--grn)">✓ URL</span>' : '<span style="font-size:11px;color:var(--t4)">—</span>') + '</td>'
+      + '<td>' + (c.videoUrl ? '<span style="font-size:11px;color:var(--grn);font-weight:700">✓ OK</span>' : '<span style="font-size:11px;color:var(--t4)">—</span>') + '</td>'
       + '<td><div class="cat-acts">'
-        + '<div class="cat-btn" onclick="openPlayer(' + c.id + ')" title="Voir"><svg class="i"><use href="#i-play"/></svg></div>'
-        + (canDel ? '<div class="cat-btn del" onclick="deleteContent(' + c.id + ')" title="Supprimer"><svg class="i"><use href="#i-trash"/></svg></div>' : '')
+        + '<div class="cat-btn" onclick="openDetail(' + c.id + ')" title="Voir"><svg class="i"><use href="#i-info"/></svg></div>'
+        + '<div class="cat-btn" onclick="openPlayer(' + c.id + ')" title="Lire"><svg class="i"><use href="#i-play"/></svg></div>'
+        + (isAdmin ? '<div class="cat-btn del" onclick="deleteContent(' + c.id + ')" title="Supprimer"><svg class="i"><use href="#i-trash"/></svg></div>' : '')
       + '</div></td>'
       + '</tr>';
   }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// ADMIN PANELS
+// ═══════════════════════════════════════════════
+function showAdmin(sec, btn) {
+  document.querySelectorAll('.admin-sec').forEach(function(s) { s.classList.remove('on'); });
+  document.querySelectorAll('.admin-tab').forEach(function(b) { b.classList.remove('on'); });
+  var el = ge('admin-' + sec); if (el) el.classList.add('on');
+  if (btn) btn.classList.add('on');
+  if (sec === 'dashboard') renderAdminDashboard();
+  if (sec === 'catalogue') { renderCatTable(); }
+  if (sec === 'mangas')    renderMangaTable();
+  if (sec === 'users')     {} // loaded on demand
+}
+
+function renderAdminDashboard() {
+  if (ge('adm-cat')) ge('adm-cat').textContent = CAT.length;
+  if (ge('adm-manga')) ge('adm-manga').textContent = MANGA_CAT.length;
+  // Recent
+  var rl = ge('admin-recent-list');
+  if (rl) {
+    var last = CAT.slice(0, 6);
+    rl.innerHTML = last.map(function(c) {
+      var cls = c.type === 'anime' ? 'anime' : c.type === 'series' ? 'series' : 'movie';
+      var lbl = c.type === 'anime' ? 'Anime' : c.type === 'series' ? 'Série' : 'Film';
+      return '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:var(--border)">'
+        + '<div style="width:28px;height:38px;border-radius:4px;flex-shrink:0;background:'+c.g1+';'+(c.posterUrl?'background-image:url('+c.posterUrl+');background-size:cover;background-position:center':'')+('"></div>')
+        + '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+c.title+'</div>'
+        + '<div style="font-size:11px;color:var(--t3);margin-top:1px">'+c.year+' · <span class="tbadge '+cls+'" style="font-size:10px;padding:1px 5px">'+lbl+'</span></div></div>'
+        + '</div>';
+    }).join('');
+  }
+  // Genre stats
+  var gEl = ge('admin-genre-stats');
+  if (gEl) {
+    var gMap = {};
+    CAT.forEach(function(c) { gMap[c.genre] = (gMap[c.genre]||0)+1; });
+    var gArr = Object.keys(gMap).sort(function(a,b){return gMap[b]-gMap[a];});
+    var tot = CAT.length || 1;
+    gEl.innerHTML = gArr.map(function(g) {
+      var pct = Math.round((gMap[g]/tot)*100);
+      return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--t2);font-weight:600">'+glbl(g)+'</span><span style="color:var(--t3)">'+gMap[g]+' titres ('+pct+'%)</span></div>'
+        +'<div style="height:3px;background:var(--s4);border-radius:2px"><div style="height:100%;background:var(--red);border-radius:2px;width:'+pct+'%;transition:width .6s var(--ease)"></div></div></div>';
+    }).join('');
+  }
+  // Supabase stats
+  if (sb && user) {
+    sb.from('profiles').select('count', { count: 'exact', head: true }).then(function(r) {
+      if (ge('adm-users-n') && r.count !== null) ge('adm-users-n').textContent = r.count;
+    });
+    sb.from('user_lists').select('count', { count: 'exact', head: true }).then(function(r) {
+      if (ge('adm-lists-n') && r.count !== null) ge('adm-lists-n').textContent = r.count;
+    });
+  }
+}
+
+function renderMangaTable() {
+  var el = ge('manga-tbody'); if (!el) return;
+  var customIds = []; try { customIds = JSON.parse(localStorage.getItem('sf_mangas') || '[]').map(function(x) { return x.id; }); } catch(e) {}
+  if (ge('manga-count')) ge('manga-count').textContent = MANGA_CAT.length;
+  el.innerHTML = MANGA_CAT.map(function(m) {
+    var sLabel = m.status === 'completed' ? '✅ Terminé' : m.status === 'hiatus' ? '⏸ Pause' : '🔄 En cours';
+    var canDel = isAdmin && (customIds.indexOf(m.id) !== -1 || m.id >= 2000);
+    return '<tr>'
+      + '<td style="font-weight:600;color:var(--t1)">'+m.title+'</td>'
+      + '<td><span style="font-size:11px;color:var(--t2)">'+glbl(m.genre)+'</span></td>'
+      + '<td style="color:var(--t3)">'+m.chapters+'</td>'
+      + '<td style="font-size:12px;color:var(--t2)">'+sLabel+'</td>'
+      + '<td><div class="cat-acts">'
+        + '<div class="cat-btn" onclick="openMangaReader('+m.id+',0)" title="Lire"><svg class="i"><use href="#i-book"/></svg></div>'
+        + (isAdmin ? '<div class="cat-btn del" onclick="deleteManga('+m.id+')" title="Supprimer"><svg class="i"><use href="#i-trash"/></svg></div>' : '')
+      + '</div></td>'
+      + '</tr>';
+  }).join('');
+}
+
+function addManga() {
+  if (!isAdmin) { toast('Accès admin requis', 'err'); return; }
+  var title  = ge('mg-title') ? ge('mg-title').value.trim() : '';
+  var genre  = ge('mg-genre') ? ge('mg-genre').value : 'shonen';
+  var status = ge('mg-status') ? ge('mg-status').value : 'ongoing';
+  var chaps  = parseInt(ge('mg-chaps') ? ge('mg-chaps').value : 1) || 1;
+  var author = ge('mg-author') ? ge('mg-author').value.trim() : '—';
+  var cover  = ge('mg-cover') ? ge('mg-cover').value.trim() : '';
+  var syn    = ge('mg-synopsis') ? ge('mg-synopsis').value.trim() : '';
+  if (!title) { toast('Le titre est obligatoire', 'err'); return; }
+  var nm = {
+    id: 2000 + Date.now() % 100000,
+    title: title, genre: genre, status: status,
+    chapters: chaps, author: author, cover: cover,
+    synopsis: syn || title, tags: [genre], year: new Date().getFullYear(),
+    pages: genPages(title.toLowerCase().replace(/\s/g,'-'), chaps, 20)
+  };
+  MANGA_CAT.push(nm);
+  var saved = []; try { saved = JSON.parse(localStorage.getItem('sf_mangas') || '[]'); } catch(e) {}
+  saved.push(nm); localStorage.setItem('sf_mangas', JSON.stringify(saved));
+  ['mg-title','mg-chaps','mg-author','mg-cover','mg-synopsis'].forEach(function(id) { var el = ge(id); if (el) el.value = ''; });
+  renderMangaTable(); toast('"' + title + '" ajouté !');
+}
+
+function deleteManga(id) {
+  var idx = MANGA_CAT.findIndex(function(m) { return m.id === id; });
+  if (idx === -1) return;
+  var title = MANGA_CAT[idx].title;
+  MANGA_CAT.splice(idx, 1);
+  var saved = []; try { saved = JSON.parse(localStorage.getItem('sf_mangas') || '[]'); } catch(e) {}
+  localStorage.setItem('sf_mangas', JSON.stringify(saved.filter(function(m) { return m.id !== id; })));
+  renderMangaTable(); toast('"' + title + '" supprimé');
+}
+
+async function loadAdminUsers() {
+  if (!sb || !user) { toast('Supabase requis', 'err'); return; }
+  var r = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+  var el = ge('users-tbody'); if (!el) return;
+  if (ge('users-count')) ge('users-count').textContent = r.data ? r.data.length : '—';
+  if (!r.data || !r.data.length) { el.innerHTML = '<tr><td colspan="5" style="color:var(--t3);padding:20px;text-align:center">Aucun membre trouvé</td></tr>'; return; }
+  el.innerHTML = r.data.map(function(u) {
+    var isAdm = ADMIN_EMAILS.indexOf(u.email || '') !== -1;
+    var date = u.created_at ? new Date(u.created_at).toLocaleDateString('fr-FR') : '—';
+    return '<tr>'
+      + '<td style="font-weight:600;color:var(--t1)">' + (u.username || '—') + '</td>'
+      + '<td style="color:var(--t2);font-size:12px">' + (u.email || '—') + '</td>'
+      + '<td><span class="u-role ' + (isAdm?'admin':'user') + '">' + (isAdm?'Admin':'User') + '</span></td>'
+      + '<td style="color:var(--t3);font-size:12px">' + date + '</td>'
+      + '<td><div class="cat-acts">'
+        + '<div class="cat-btn del" onclick="adminBanUser(\'' + u.user_id + '\')" title="Bannir"><svg class="i"><use href="#i-ban"/></svg></div>'
+        + '<div class="cat-btn del" onclick="adminClearUserList(\'' + u.user_id + '\')" title="Vider liste"><svg class="i"><use href="#i-trash"/></svg></div>'
+      + '</div></td>'
+      + '</tr>';
+  }).join('');
+}
+
+async function loadAdminLists() {
+  if (!sb || !user) { toast('Supabase requis', 'err'); return; }
+  var r = await sb.from('user_lists').select('*');
+  var el = ge('admin-lists-view'); if (!el) return;
+  if (!r.data || !r.data.length) { el.innerHTML = '<p style="color:var(--t3);font-size:13px">Aucune liste trouvée</p>'; return; }
+  // Group by user
+  var map = {};
+  r.data.forEach(function(row) { map[row.user_id] = (map[row.user_id]||0)+1; });
+  el.innerHTML = '<div style="font-size:13px;color:var(--t2)">' + Object.keys(map).map(function(uid) {
+    return '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:var(--border)">'
+      + '<span style="color:var(--t3);font-size:12px">'+uid.slice(0,12)+'…</span>'
+      + '<span style="font-weight:700;color:var(--red)">'+map[uid]+' titres</span>'
+      + '<button class="btn-danger" style="padding:4px 10px;font-size:11px" onclick="adminClearUserList(\''+uid+'\')">Vider</button>'
+      + '</div>';
+  }).join('') + '</div>';
+}
+
+async function loadAdminHistory() {
+  if (!sb || !user) { toast('Supabase requis', 'err'); return; }
+  var r = await sb.from('watch_history').select('*').order('last_watched', { ascending: false }).limit(50);
+  var el = ge('admin-history-view'); if (!el) return;
+  if (!r.data || !r.data.length) { el.innerHTML = '<p style="color:var(--t3);font-size:13px">Aucun historique</p>'; return; }
+  el.innerHTML = '<div style="font-size:13px">' + r.data.map(function(h) {
+    var c = CAT.find(function(x) { return x.id === h.content_id; });
+    var pct = h.duration ? Math.round((h.progress/h.duration)*100) : 0;
+    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:var(--border)">'
+      + '<div style="width:28px;height:38px;border-radius:4px;background:'+(c?c.g1:'var(--s2)')+';flex-shrink:0"></div>'
+      + '<div style="flex:1"><div style="font-weight:600;color:var(--t1)">'+(c?c.title:'Titre #'+h.content_id)+'</div>'
+      + '<div style="font-size:11px;color:var(--t3)">'+h.user_id.slice(0,10)+'… · '+pct+'% vu</div></div>'
+      + '</div>';
+  }).join('') + '</div>';
+}
+
+async function adminBanUser(uid) {
+  if (!isAdmin || !sb) { toast('Accès refusé', 'err'); return; }
+  if (!confirm('Bannir cet utilisateur ?')) return;
+  await sb.from('profiles').delete().eq('user_id', uid);
+  toast('Utilisateur banni'); loadAdminUsers();
+}
+
+async function adminClearUserList(uid) {
+  if (!isAdmin || !sb) { toast('Accès refusé', 'err'); return; }
+  await sb.from('user_lists').delete().eq('user_id', uid);
+  toast('Liste vidée');
+}
+
+async function adminClearAllHistory() {
+  if (!isAdmin) { toast('Accès refusé', 'err'); return; }
+  if (!confirm('Supprimer TOUT l\'historique ? Irréversible.')) return;
+  if (sb && user) { await sb.from('watch_history').delete().neq('user_id', ''); }
+  localStorage.removeItem('sf_hist');
+  watchHist = {};
+  toast('Tout l\'historique supprimé');
+}
+
+async function adminClearAllLists() {
+  if (!isAdmin) { toast('Accès refusé', 'err'); return; }
+  if (!confirm('Vider TOUTES les listes ? Irréversible.')) return;
+  if (sb && user) { await sb.from('user_lists').delete().neq('user_id', ''); }
+  localStorage.removeItem('sf_list');
+  myList = [];
+  toast('Toutes les listes vidées');
+}
+
+function adminClearCustomCat() {
+  if (!isAdmin) { toast('Accès refusé', 'err'); return; }
+  if (!confirm('Supprimer tous les titres custom ? Irréversible.')) return;
+  var saved = []; try { saved = JSON.parse(localStorage.getItem('sf_custom') || '[]'); } catch(e) {}
+  var ids = saved.map(function(x) { return x.id; });
+  ids.forEach(function(id) { var idx = CAT.findIndex(function(c) { return c.id === id; }); if (idx !== -1) CAT.splice(idx, 1); });
+  localStorage.removeItem('sf_custom');
+  renderCatTable(); toast('Catalogue custom supprimé');
+}
+
+function adminClearCustomMangas() {
+  if (!isAdmin) { toast('Accès refusé', 'err'); return; }
+  if (!confirm('Supprimer tous les mangas custom ? Irréversible.')) return;
+  var saved = []; try { saved = JSON.parse(localStorage.getItem('sf_mangas') || '[]'); } catch(e) {}
+  var ids = saved.map(function(m) { return m.id; });
+  ids.forEach(function(id) { var idx = MANGA_CAT.findIndex(function(m) { return m.id === id; }); if (idx !== -1) MANGA_CAT.splice(idx, 1); });
+  localStorage.removeItem('sf_mangas');
+  renderMangaTable(); toast('Mangas custom supprimés');
 }
 
 function loadCustom() {
@@ -2482,12 +4460,19 @@ function loadCustom() {
 // KEYBOARD
 // ═══════════════════════════════════════════════
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') { closeSearch(); closeModal(); closePlayer(); closeAuth(); }
+  if (e.key === 'Escape') {
+    if (ge('manga-reader').classList.contains('open')) closeMangaReader();
+    else { closeSearch(); closeModal(); closePlayer(); closeAuth(); }
+  }
   var po = ge('player').classList.contains('open');
   if (e.key === ' ' && po) { e.preventDefault(); tPlay(); }
   if (e.key === 'f' && po) tFull();
   if (e.key === 'ArrowRight' && po) { pProg = Math.min(1, pProg + .05); ge('pfill').style.width = (pProg * 100) + '%'; updTime(); }
   if (e.key === 'ArrowLeft'  && po) { pProg = Math.max(0, pProg - .05); ge('pfill').style.width = (pProg * 100) + '%'; updTime(); }
+  // Manga reader keys
+  var mr = ge('manga-reader').classList.contains('open');
+  if (e.key === 'ArrowRight' && mr) mrNext();
+  if (e.key === 'ArrowLeft'  && mr) mrPrev();
 });
 
 // ═══════════════════════════════════════════════
